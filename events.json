@@ -1,0 +1,231 @@
+{
+  "events": [
+    {
+      "id": "conf-2026-01",
+      "title": "Tech Summit 2026",
+      "startDate": "2026-01-15",
+      "endDate": "2026-01-17",
+      "color": "#3b82f6",
+      "category": "conference",
+      "location": "Москва, Крокус Экспо",
+      "description": "Крупнейшая технологическая конференция года. Более 100 спикеров, 50 мастер-классов и networking зона.",
+      "url": "https://techsummit2026.example.com"
+    },
+    {
+      "id": "deadline-2026-01",
+      "title": "Дедлайн подачи заявок",
+      "startDate": "2026-01-31",
+      "endDate": "2026-01-31",
+      "color": "#ef4444",
+      "category": "deadline",
+      "location": "",
+      "description": "Последний день подачи заявок на участие в весенней программе акселератора.",
+      "url": ""
+    },
+    {
+      "id": "workshop-2026-02",
+      "title": "AI/ML Workshop",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "color": "#8b5cf6",
+      "category": "workshop",
+      "location": "Санкт-Петербург",
+      "description": "Трёхдневный интенсив по машинному обучению и нейросетям. Практические задания и работа с реальными датасетами.",
+      "url": "https://aiworkshop.example.com"
+    },
+    {
+      "id": "holiday-2026-02",
+      "title": "День защитника Отечества",
+      "startDate": "2026-02-23",
+      "endDate": "2026-02-23",
+      "color": "#10b981",
+      "category": "holiday",
+      "location": "Россия",
+      "description": "Государственный праздник. Выходной день.",
+      "url": ""
+    },
+    {
+      "id": "conf-2026-03",
+      "title": "DevOps Conference",
+      "startDate": "2026-03-05",
+      "endDate": "2026-03-07",
+      "color": "#3b82f6",
+      "category": "conference",
+      "location": "Казань",
+      "description": "Конференция по DevOps практикам, CI/CD, Kubernetes и облачным технологиям.",
+      "url": "https://devopsconf.example.com"
+    },
+    {
+      "id": "holiday-2026-03",
+      "title": "Международный женский день",
+      "startDate": "2026-03-08",
+      "endDate": "2026-03-08",
+      "color": "#10b981",
+      "category": "holiday",
+      "location": "Россия",
+      "description": "Государственный праздник. Выходной день.",
+      "url": ""
+    },
+    {
+      "id": "meetup-2026-04",
+      "title": "Frontend Meetup",
+      "startDate": "2026-04-15",
+      "endDate": "2026-04-15",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва, Яндекс",
+      "description": "Ежемесячная встреча фронтенд-разработчиков. Доклады о React, Vue и новых веб-стандартах.",
+      "url": "https://frontend-meetup.example.com"
+    },
+    {
+      "id": "holiday-2026-05",
+      "title": "Майские праздники",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-03",
+      "color": "#10b981",
+      "category": "holiday",
+      "location": "Россия",
+      "description": "Праздник Весны и Труда. Длинные выходные.",
+      "url": ""
+    },
+    {
+      "id": "holiday-2026-05-2",
+      "title": "День Победы",
+      "startDate": "2026-05-09",
+      "endDate": "2026-05-11",
+      "color": "#10b981",
+      "category": "holiday",
+      "location": "Россия",
+      "description": "День Победы в Великой Отечественной войне. Государственный праздник.",
+      "url": ""
+    },
+    {
+      "id": "conf-2026-06",
+      "title": "Highload++ Summer",
+      "startDate": "2026-06-20",
+      "endDate": "2026-06-22",
+      "color": "#3b82f6",
+      "category": "conference",
+      "location": "Москва, Сколково",
+      "description": "Конференция для разработчиков высоконагруженных систем. Архитектура, масштабирование, производительность.",
+      "url": "https://highload.example.com"
+    },
+    {
+      "id": "deadline-2026-06",
+      "title": "Q2 Report Deadline",
+      "startDate": "2026-06-30",
+      "endDate": "2026-06-30",
+      "color": "#ef4444",
+      "category": "deadline",
+      "location": "",
+      "description": "Срок сдачи квартального отчёта.",
+      "url": ""
+    },
+    {
+      "id": "workshop-2026-07",
+      "title": "Summer Coding Camp",
+      "startDate": "2026-07-06",
+      "endDate": "2026-07-17",
+      "color": "#8b5cf6",
+      "category": "workshop",
+      "location": "Сочи",
+      "description": "Двухнедельный летний лагерь для разработчиков. Обучение, нетворкинг и отдых на море.",
+      "url": "https://codingcamp.example.com"
+    },
+    {
+      "id": "meetup-2026-08",
+      "title": "Backend Meetup",
+      "startDate": "2026-08-20",
+      "endDate": "2026-08-20",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Новосибирск",
+      "description": "Встреча бэкенд-разработчиков. Темы: микросервисы, базы данных, API design.",
+      "url": ""
+    },
+    {
+      "id": "conf-2026-09",
+      "title": "PyCon Russia 2026",
+      "startDate": "2026-09-14",
+      "endDate": "2026-09-16",
+      "color": "#3b82f6",
+      "category": "conference",
+      "location": "Москва",
+      "description": "Главная Python-конференция в России. Доклады, воркшопы, спринты.",
+      "url": "https://pycon.ru"
+    },
+    {
+      "id": "deadline-2026-09",
+      "title": "CFP Закрытие",
+      "startDate": "2026-09-30",
+      "endDate": "2026-09-30",
+      "color": "#ef4444",
+      "category": "deadline",
+      "location": "",
+      "description": "Последний день приёма заявок на доклады для зимней конференции.",
+      "url": ""
+    },
+    {
+      "id": "workshop-2026-10",
+      "title": "Security Bootcamp",
+      "startDate": "2026-10-05",
+      "endDate": "2026-10-09",
+      "color": "#8b5cf6",
+      "category": "workshop",
+      "location": "Екатеринбург",
+      "description": "Пятидневный интенсив по информационной безопасности. CTF-соревнования каждый вечер.",
+      "url": "https://securitycamp.example.com"
+    },
+    {
+      "id": "conf-2026-11",
+      "title": "HolyJS Autumn",
+      "startDate": "2026-11-09",
+      "endDate": "2026-11-10",
+      "color": "#3b82f6",
+      "category": "conference",
+      "location": "Москва",
+      "description": "Конференция для JavaScript-разработчиков. Frontend, backend, fullstack.",
+      "url": "https://holyjs.ru"
+    },
+    {
+      "id": "meetup-2026-11",
+      "title": "Mobile Dev Meetup",
+      "startDate": "2026-11-25",
+      "endDate": "2026-11-25",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва",
+      "description": "Встреча мобильных разработчиков. iOS, Android, Flutter, React Native.",
+      "url": ""
+    },
+    {
+      "id": "deadline-2026-12",
+      "title": "Годовой отчёт",
+      "startDate": "2026-12-20",
+      "endDate": "2026-12-20",
+      "color": "#ef4444",
+      "category": "deadline",
+      "location": "",
+      "description": "Срок сдачи годового отчёта по проектам.",
+      "url": ""
+    },
+    {
+      "id": "holiday-2026-12",
+      "title": "Новогодние каникулы",
+      "startDate": "2026-12-31",
+      "endDate": "2026-12-31",
+      "color": "#10b981",
+      "category": "holiday",
+      "location": "Россия",
+      "description": "Новый год! Начало праздничных каникул.",
+      "url": ""
+    }
+  ],
+  "categories": [
+    { "id": "conference", "name": "Конференции", "color": "#3b82f6" },
+    { "id": "deadline", "name": "Дедлайны", "color": "#ef4444" },
+    { "id": "workshop", "name": "Воркшопы", "color": "#8b5cf6" },
+    { "id": "meetup", "name": "Митапы", "color": "#f59e0b" },
+    { "id": "holiday", "name": "Праздники", "color": "#10b981" }
+  ]
+}
