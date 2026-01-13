@@ -11,17 +11,7 @@
       "description": "Фурри-маркет — ярмарка фурри-товаров, арта и merchandise.",
       "url": "https://vk.com/furrmarket"
     },
-    {
-      "id": "ufc-2026-04",
-      "title": "UFC",
-      "startDate": "2026-04-16",
-      "endDate": "2026-04-19",
-      "color": "#3b82f6",
-      "category": "convention",
-      "location": "",
-      "description": "Ukrainian Furry Convention — фурри-конвент.",
-      "url": ""
-    },
+
     {
       "id": "camping-2026-05-01",
       "title": "Кемпинг",
