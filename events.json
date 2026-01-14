@@ -163,7 +163,7 @@
       "category": "convention",
       "location": "Санкт-Петербург",
       "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
-      "url": ""
+      "url": "https://epiccon.ru/"
     },
     {
       "id": "epiccon-msk-2026-07",
@@ -174,7 +174,7 @@
       "category": "convention",
       "location": "Москва",
       "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
-      "url": ""
+      "url": "https://epiccon.ru/"
     }
   ],
   "categories": [
