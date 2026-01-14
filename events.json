@@ -1,722 +1,289 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furry Events 2026</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .month-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-        }
-        .day-cell {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            cursor: default;
-            position: relative;
-        }
-        .day-cell.has-event {
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
-            border-radius: 9999px;
-        }
-        .day-cell.has-event:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-            transition: all 0.2s;
-            z-index: 10;
-        }
-        /* Modal transition */
-        .modal {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
-
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-20">
-        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <span>📅</span> Furry Events 2026
-            </h1>
-            <div id="legend" class="flex flex-wrap gap-3 mt-3 md:mt-0 text-sm">
-                <!-- Legend items injected here -->
-            </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        
-        <!-- Stats / Quick Links -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <h3 class="text-lg font-semibold mb-2">Всего событий</h3>
-                <p class="text-3xl font-bold text-blue-600" id="total-events-count">0</p>
-                <p class="text-sm text-slate-500 mt-1">Запланировано на 2026</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <h3 class="text-lg font-semibold mb-2">Ближайшее</h3>
-                <div id="next-event-widget">
-                    <p class="text-slate-400">Загрузка...</p>
-                </div>
-            </div>
-             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-center">
-                <a href="#tentative-section" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2 transition-colors">
-                    Посмотреть события под вопросом &darr;
-                </a>
-            </div>
-        </div>
-
-        <!-- Calendar Year View -->
-        <h2 class="text-xl font-bold mb-6 border-l-4 border-blue-500 pl-3">Календарь 2026</h2>
-        <div id="calendar-container" class="calendar-grid mb-12">
-            <!-- Months injected here -->
-        </div>
-
-        <!-- Tentative Events -->
-        <div id="tentative-section" class="mb-12">
-            <h2 class="text-xl font-bold mb-6 border-l-4 border-slate-400 pl-3">События под вопросом</h2>
-            <div id="tentative-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Tentative events injected here -->
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="bg-slate-800 text-slate-300 py-8 text-center text-sm">
-        <p>&copy; 2026 Furry Events Calendar. Информация может изменяться.</p>
-    </footer>
-
-    <!-- Event Detail Modal -->
-    <div id="event-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all scale-100">
-            <div class="relative h-24 bg-blue-600" id="modal-header-bg">
-                <button id="close-modal" class="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white rounded-full p-1 w-8 h-8 flex items-center justify-center transition-colors">
-                    &times;
-                </button>
-            </div>
-            <div class="px-6 pb-6 -mt-10 relative">
-                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 mb-4 flex items-center gap-3">
-                    <div id="modal-date-badge" class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded text-sm text-center min-w-[60px]">
-                        JAN<br>05
-                    </div>
-                    <div>
-                        <h3 id="modal-title" class="text-xl font-bold text-slate-900 leading-tight">Event Title</h3>
-                        <p id="modal-category" class="text-sm text-slate-500">Category</p>
-                    </div>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5">📅</span>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-700">Даты проведения</p>
-                            <p id="modal-dates" class="text-sm text-slate-600">Start - End</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start gap-3" id="modal-location-container">
-                        <span class="text-slate-400 mt-0.5">📍</span>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-700">Местоположение</p>
-                            <p id="modal-location" class="text-sm text-slate-600">Location</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5">📝</span>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-700">Описание</p>
-                            <p id="modal-description" class="text-sm text-slate-600 leading-relaxed">Description goes here.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
-                    <a id="modal-link" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
-                        Подробнее <span>&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Data from JSON
-        const appData = {
-          "events": [
-            {
-              "id": "wintertails-2026-01",
-              "title": "Винтертейлз",
-              "startDate": "2026-01-05",
-              "endDate": "2026-01-08",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "Зимний фурри-конвент.",
-              "url": ""
-            },
-            {
-              "id": "dikiy-market-2026-02",
-              "title": "ДИКИЙ маркет",
-              "startDate": "2026-02-21",
-              "endDate": "2026-02-21",
-              "color": "#f59e0b",
-              "category": "meetup",
-              "location": "Санкт-Петербург",
-              "description": "ДИКИЙ маркет — фурри-маркет в Санкт-Петербурге.",
-              "url": "https://vk.com/dikiy_market"
-            },
-            {
-              "id": "furmarket-2026-03",
-              "title": "Фурмаркет",
-              "startDate": "2026-03-22",
-              "endDate": "2026-03-22",
-              "color": "#f59e0b",
-              "category": "meetup",
-              "location": "",
-              "description": "Фурри-маркет — ярмарка фурри-товаров, арта и merchandise.",
-              "url": "https://vk.com/furrmarket"
-            },
-            {
-              "id": "camping-2026-05-01",
-              "title": "Кемпинг",
-              "startDate": "2026-05-01",
-              "endDate": "2026-05-04",
-              "color": "#10b981",
-              "category": "camping",
-              "location": "",
-              "description": "Майский кемпинг на природе.",
-              "url": ""
-            },
-            {
-              "id": "bbfc-2026-05",
-              "title": "BBFC",
-              "startDate": "2026-05-08",
-              "endDate": "2026-05-11",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "Big Blue Furry Convention.",
-              "url": "https://t.me/joinchat/BH_Bp0jaxHx7SmaaoKwIaQ"
-            },
-            {
-              "id": "foxwood-2026-05",
-              "title": "FoxWood",
-              "startDate": "2026-05-14",
-              "endDate": "2026-05-17",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "FoxWood — лесной фурри-конвент.",
-              "url": "https://t.me/foxwoodnews"
-            },
-            {
-              "id": "camping-2026-06-12",
-              "title": "Кемпинг",
-              "startDate": "2026-06-12",
-              "endDate": "2026-06-15",
-              "color": "#10b981",
-              "category": "camping",
-              "location": "",
-              "description": "Июньский кемпинг.",
-              "url": ""
-            },
-            {
-              "id": "gp-2026-06",
-              "title": "ГП",
-              "startDate": "2026-06-26",
-              "endDate": "2026-06-28",
-              "color": "#8b5cf6",
-              "category": "convention",
-              "location": "",
-              "description": "ГП — фурри-мероприятие.",
-              "url": ""
-            },
-            {
-              "id": "volkistan-2026-06",
-              "title": "Волкистан",
-              "startDate": "2026-06-27",
-              "endDate": "2026-06-29",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "Волкистан — тематический фурри-конвент.",
-              "url": "https://t.me/wolkistan"
-            },
-            {
-              "id": "wildfurrence-2026-07",
-              "title": "WildFurence 26",
-              "startDate": "2026-07-16",
-              "endDate": "2026-07-19",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "Ладога",
-              "description": "Кон на Ладоге",
-              "url": "https://t.me/wfinfo"
-            },
-            {
-              "id": "camping-2026-07-19",
-              "title": "Кемпинг",
-              "startDate": "2026-07-19",
-              "endDate": "2026-07-20",
-              "color": "#10b981",
-              "category": "camping",
-              "location": "",
-              "description": "Июльский кемпинг.",
-              "url": ""
-            },
-            {
-              "id": "turfur-2026-08",
-              "title": "Турфур",
-              "startDate": "2026-08-06",
-              "endDate": "2026-08-09",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "Турфур — туристический фурри-конвент.",
-              "url": ""
-            },
-            {
-              "id": "camping-2026-08-29",
-              "title": "Кемпинг",
-              "startDate": "2026-08-29",
-              "endDate": "2026-08-31",
-              "color": "#10b981",
-              "category": "camping",
-              "location": "",
-              "description": "Августовский кемпинг — завершение лета.",
-              "url": ""
-            },
-            {
-              "id": "tupikon-2026-09",
-              "title": "Тупикон",
-              "startDate": "2026-09-10",
-              "endDate": "2026-09-13",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "",
-              "description": "Тупикон — осенний фурри-конвент.",
-              "url": "https://t.me/SillyConNews"
-            },
-            {
-              "id": "epiccon-spb-2026-05",
-              "title": "Epic Con Санкт-Петербург",
-              "startDate": "2026-05-30",
-              "endDate": "2026-05-31",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "Санкт-Петербург",
-              "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
-              "url": "https://epiccon.ru/"
-            },
-            {
-              "id": "epiccon-msk-2026-07",
-              "title": "Epic Con Москва",
-              "startDate": "2026-07-04",
-              "endDate": "2026-07-05",
-              "color": "#3b82f6",
-              "category": "convention",
-              "location": "Москва",
-              "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
-              "url": "https://epiccon.ru/"
-            },
-            {
-              "id": "furrburgfest-2026-05",
-              "title": "ФуррбургФест 5.0",
-              "startDate": "2026-05-03",
-              "endDate": "2026-05-03",
-              "color": "#f59e0b",
-              "category": "meetup",
-              "location": "Санкт-Петербург",
-              "description": "Фурри-маркет в Санкт-Петербурге.",
-              "url": "https://vk.com/fbfests"
-            }
-          ],
-          "categories": [
-            { "id": "convention", "name": "Конвенты", "color": "#3b82f6" },
-            { "id": "camping", "name": "Кемпинги", "color": "#10b981" },
-            { "id": "meetup", "name": "Маркеты", "color": "#f59e0b" },
-            { "id": "tentative", "name": "Под вопросом", "color": "#6b7280" }
-          ],
-          "tentativeEvents": [
-            {
-              "id": "tent-i-luv-it-2026",
-              "title": "i luv it маркет",
-              "estimatedDate": "Дата уточняется",
-              "color": "#6b7280",
-              "category": "meetup",
-              "location": "",
-              "description": "i luv it маркет — дата уточняется",
-              "url": "https://vk.com/event230253960"
-            },
-            {
-              "id": "tent-totem-stolb-2026",
-              "title": "Ивенты от \"Тотемного столба\"",
-              "estimatedDate": "Дата уточняется",
-              "color": "#6b7280",
-              "category": "meetup",
-              "location": "",
-              "description": "Ивенты от \"Тотемного столба\" — даты уточняются",
-              "url": "https://vk.com/event205940695"
-            },
-            {
-              "id": "tent-fall-camping-2026",
-              "title": "Осенний кемпинг",
-              "estimatedDate": "Октябрь 2026",
-              "color": "#6b7280",
-              "category": "camping",
-              "location": "",
-              "description": "Осенний кемпинг — точные даты уточняются",
-              "url": ""
-            },
-            {
-              "id": "tent-furmarket-autumn-2026",
-              "title": "ФурМаркет Осенний",
-              "estimatedDate": "Ноябрь 2026",
-              "color": "#6b7280",
-              "category": "meetup",
-              "location": "",
-              "description": "Осенний маркет — дата уточняется",
-              "url": "https://vk.com/furrmarket"
-            },
-            {
-              "id": "tent-winter-con-2026",
-              "title": "Зимний кон",
-              "estimatedDate": "Декабрь 2026",
-              "color": "#6b7280",
-              "category": "convention",
-              "location": "",
-              "description": "Зимний фурри конвент — даты ориентировочные",
-              "url": ""
-            },
-            {
-              "id": "tent-new-outdoor-2026",
-              "title": "Новый кон на природе",
-              "estimatedDate": "Дата уточняется",
-              "color": "#6b7280",
-              "category": "convention",
-              "location": "",
-              "description": "Планируется новый кон на природе, даты будут объявлены позже",
-              "url": ""
-            },
-            {
-              "id": "tent-anyfurry-2026",
-              "title": "AnyFurry Fest VII",
-              "estimatedDate": "Конец 2026",
-              "color": "#f59e0b",
-              "category": "meetup",
-              "location": "Москва",
-              "description": "Фурри-маркет. Дата уточняется.",
-              "url": "https://vk.com/anyfurryfest"
-            },
-            {
-              "id": "tent-dracon-2026",
-              "title": "DraCon V",
-              "estimatedDate": "5 декабря 2026 (?)",
-              "color": "#f59e0b",
-              "category": "meetup",
-              "location": "Москва",
-              "description": "Вероятнее всего 5 декабря.",
-              "url": "https://vk.com/dracon"
-            },
-            {
-              "id": "tent-kaifur-2026",
-              "title": "Кайфур",
-              "estimatedDate": "Даты неизвестны",
-              "color": "linear-gradient(135deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #a855f7, #ec4899)",
-              "category": "convention",
-              "location": "Неизвестно",
-              "description": "Лучший кон.",
-              "url": ""
-            }
-          ]
-        };
-
-        const months = [
-            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-        ];
-        
-        const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-        
-        // State for filtering
-        let activeCategories = new Set(appData.categories.map(c => c.id));
-
-        function init() {
-            renderLegend();
-            renderStats();
-            renderCalendar();
-            renderTentativeEvents();
-            setupModal();
-        }
-
-        function toggleCategory(catId) {
-            if (activeCategories.has(catId)) {
-                activeCategories.delete(catId);
-            } else {
-                activeCategories.add(catId);
-            }
-            renderLegend();
-            renderCalendar();
-            renderTentativeEvents();
-            renderStats(); 
-        }
-
-        function renderLegend() {
-            const container = document.getElementById('legend');
-            container.innerHTML = ''; // Clear existing
-            appData.categories.forEach(cat => {
-                if (cat.id === 'tentative') return; 
-                
-                const isActive = activeCategories.has(cat.id);
-                const div = document.createElement('button');
-                div.className = `cursor-pointer flex items-center gap-1.5 px-2 py-1 rounded transition-all ${isActive ? 'bg-white shadow-sm ring-1 ring-slate-200' : 'opacity-50 grayscale'}`;
-                div.innerHTML = `
-                    <span class="w-3 h-3 rounded-full" style="background-color: ${cat.color}"></span>
-                    <span class="text-slate-600 font-medium">${cat.name}</span>
-                `;
-                div.onclick = () => toggleCategory(cat.id);
-                container.appendChild(div);
-            });
-        }
-
-        function renderStats() {
-            // Filter events
-            const visibleEvents = appData.events.filter(e => activeCategories.has(e.category));
-            
-            // Count
-            document.getElementById('total-events-count').innerText = visibleEvents.length;
-
-            // Nearest event
-            const sortedEvents = [...visibleEvents].sort((a, b) => a.startDate.localeCompare(b.startDate));
-            
-            const nextEvent = sortedEvents[0];
-            const widget = document.getElementById('next-event-widget');
-            
-            if (nextEvent) {
-                widget.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <div class="w-1 h-8 rounded-full" style="background: ${nextEvent.color}"></div>
-                        <div>
-                            <p class="font-bold text-slate-800 leading-tight">${nextEvent.title}</p>
-                            <p class="text-xs text-slate-500">${formatDate(nextEvent.startDate)}</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                widget.innerHTML = `<p class="text-sm text-slate-400">Нет предстоящих событий</p>`;
-            }
-        }
-
-        function renderCalendar() {
-            const container = document.getElementById('calendar-container');
-            container.innerHTML = ''; // Clear for re-render
-            const year = 2026;
-
-            // Map events to dates for O(1) lookup
-            const eventsByDate = {};
-            
-            appData.events.forEach(event => {
-                // Filter check
-                if (!activeCategories.has(event.category)) return;
-
-                let current = new Date(event.startDate);
-                const end = new Date(event.endDate);
-                
-                while (current <= end) {
-                    const dateStr = current.toISOString().split('T')[0];
-                    if (!eventsByDate[dateStr]) eventsByDate[dateStr] = [];
-                    eventsByDate[dateStr].push(event);
-                    
-                    current.setDate(current.getDate() + 1);
-                }
-            });
-
-            months.forEach((monthName, index) => {
-                const monthDiv = document.createElement('div');
-                monthDiv.className = "bg-white p-4 rounded-xl shadow-sm border border-slate-100";
-                
-                // Header
-                const header = document.createElement('div');
-                header.className = "flex justify-between items-center mb-3";
-                header.innerHTML = `<h3 class="font-bold text-lg text-slate-700">${monthName}</h3>`;
-                monthDiv.appendChild(header);
-
-                // Weekdays
-                const grid = document.createElement('div');
-                grid.className = "month-grid";
-                
-                daysOfWeek.forEach(d => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.className = "text-center text-xs text-slate-400 font-medium py-1";
-                    dayHeader.innerText = d;
-                    grid.appendChild(dayHeader);
-                });
-
-                // Days
-                const firstDay = new Date(year, index, 1);
-                const lastDay = new Date(year, index + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                
-                // 0 = Sunday, 1 = Monday... but we want Mon=0, Sun=6
-                let startDayOfWeek = firstDay.getDay() - 1; 
-                if (startDayOfWeek === -1) startDayOfWeek = 6;
-
-                // Empty cells before start
-                for (let i = 0; i < startDayOfWeek; i++) {
-                    grid.appendChild(document.createElement('div'));
-                }
-
-                // Days
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const dateStr = `${year}-${String(index + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                    const dayCell = document.createElement('div');
-                    dayCell.className = "day-cell rounded-full hover:bg-slate-50 transition-colors";
-                    dayCell.innerText = d;
-
-                    if (eventsByDate[dateStr]) {
-                        const events = eventsByDate[dateStr];
-                        const mainEvent = events[0];
-                        
-                        dayCell.classList.add('has-event');
-                        dayCell.style.background = mainEvent.color;
-                        dayCell.title = events.map(e => e.title).join(', ');
-                        
-                        dayCell.addEventListener('click', () => openModal(events));
-                    }
-
-                    grid.appendChild(dayCell);
-                }
-
-                monthDiv.appendChild(grid);
-                container.appendChild(monthDiv);
-            });
-        }
-
-        function renderTentativeEvents() {
-            const container = document.getElementById('tentative-container');
-            container.innerHTML = ''; // Clear for re-render
-            
-            const visibleEvents = appData.tentativeEvents.filter(e => activeCategories.has(e.category));
-            
-            if (visibleEvents.length === 0) {
-                 container.innerHTML = '<p class="text-slate-400 col-span-full text-center italic">Нет событий в выбранных категориях.</p>';
-                 return;
-            }
-
-            visibleEvents.forEach(event => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow relative overflow-hidden";
-                
-                card.innerHTML = `
-                    <div class="absolute top-0 left-0 w-1 h-full" style="background: ${event.color}"></div>
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="font-bold text-slate-800 text-lg">${event.title}</h4>
-                        <span class="text-xs font-semibold bg-slate-100 text-slate-500 px-2 py-1 rounded">
-                            ${event.estimatedDate}
-                        </span>
-                    </div>
-                    <p class="text-sm text-slate-600 mb-3">${event.description}</p>
-                    ${event.url ? `<a href="${event.url}" target="_blank" class="text-sm text-blue-600 hover:underline inline-flex items-center gap-1">Узнать больше <span>&rarr;</span></a>` : ''}
-                `;
-                
-                container.appendChild(card);
-            });
-        }
-
-        // Modal Logic
-        const modal = document.getElementById('event-modal');
-        const closeModalBtn = document.getElementById('close-modal');
-        
-        function setupModal() {
-            closeModalBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-            });
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === "Escape" && modal.classList.contains('active')) {
-                    modal.classList.remove('active');
-                }
-            });
-        }
-
-        function openModal(events) {
-            // If multiple events on one day, ideally we show a list or handle selection.
-            // For simplicity, we'll show the first event, or maybe list titles if multiple?
-            // Let's just show the first one for now as data seems to have minimal overlaps.
-            const event = events[0];
-            
-            // Populate
-            document.getElementById('modal-title').innerText = event.title;
-            document.getElementById('modal-description').innerText = event.description;
-            document.getElementById('modal-dates').innerText = `${formatDate(event.startDate)} — ${formatDate(event.endDate)}`;
-            document.getElementById('modal-header-bg').style.background = event.color;
-            document.getElementById('modal-date-badge').innerHTML = getBadgeDate(event.startDate);
-            document.getElementById('modal-date-badge').className = `px-3 py-1 rounded text-sm text-center min-w-[60px] font-bold bg-white/90 shadow-sm`;
-            document.getElementById('modal-date-badge').style.color = event.color;
-
-            // Category name lookup
-            const cat = appData.categories.find(c => c.id === event.category);
-            document.getElementById('modal-category').innerText = cat ? cat.name : event.category;
-
-            // Location
-            const locEl = document.getElementById('modal-location-container');
-            if (event.location) {
-                locEl.style.display = 'flex';
-                document.getElementById('modal-location').innerText = event.location;
-            } else {
-                locEl.style.display = 'none';
-            }
-
-            // Link
-            const linkBtn = document.getElementById('modal-link');
-            if (event.url) {
-                linkBtn.style.display = 'inline-flex';
-                linkBtn.href = event.url;
-                linkBtn.style.backgroundColor = event.color;
-            } else {
-                linkBtn.style.display = 'none';
-            }
-
-            modal.classList.add('active');
-        }
-
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-        }
-
-        function getBadgeDate(dateStr) {
-            const date = new Date(dateStr);
-            const month = date.toLocaleDateString('ru-RU', { month: 'short' }).toUpperCase().replace('.', '');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${month}<br><span class="text-xl">${day}</span>`;
-        }
-
-        // Run
-        document.addEventListener('DOMContentLoaded', init);
-
-    </script>
-</body>
-</html>
+{
+  "events": [
+    {
+      "id": "wintertails-2026-01",
+      "title": "Винтертейлз",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-08",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Зимний фурри-конвент.",
+      "url": ""
+    },
+    {
+      "id": "dikiy-market-2026-02",
+      "title": "ДИКИЙ маркет",
+      "startDate": "2026-02-21",
+      "endDate": "2026-02-21",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Санкт-Петербург",
+      "description": "ДИКИЙ маркет — фурри-маркет в Санкт-Петербурге.",
+      "url": "https://vk.com/dikiy_market"
+    },
+    {
+      "id": "furmarket-2026-03",
+      "title": "Фурмаркет",
+      "startDate": "2026-03-22",
+      "endDate": "2026-03-22",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "",
+      "description": "Фурри-маркет — ярмарка фурри-товаров, арта и merchandise.",
+      "url": "https://vk.com/furrmarket"
+    },
+    {
+      "id": "camping-2026-05-01",
+      "title": "Кемпинг",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-04",
+      "color": "#10b981",
+      "category": "camping",
+      "location": "",
+      "description": "Майский кемпинг на природе.",
+      "url": ""
+    },
+    {
+      "id": "bbfc-2026-05",
+      "title": "BBFC",
+      "startDate": "2026-05-08",
+      "endDate": "2026-05-11",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Big Blue Furry Convention.",
+      "url": "https://t.me/joinchat/BH_Bp0jaxHx7SmaaoKwIaQ"
+    },
+    {
+      "id": "foxwood-2026-05",
+      "title": "FoxWood",
+      "startDate": "2026-05-14",
+      "endDate": "2026-05-17",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "FoxWood — лесной фурри-конвент.",
+      "url": "https://t.me/foxwoodnews"
+    },
+    {
+      "id": "camping-2026-06-12",
+      "title": "Кемпинг",
+      "startDate": "2026-06-12",
+      "endDate": "2026-06-15",
+      "color": "#10b981",
+      "category": "camping",
+      "location": "",
+      "description": "Июньский кемпинг.",
+      "url": ""
+    },
+    {
+      "id": "gp-2026-06",
+      "title": "ГП",
+      "startDate": "2026-06-26",
+      "endDate": "2026-06-28",
+      "color": "#8b5cf6",
+      "category": "convention",
+      "location": "",
+      "description": "ГП — фурри-мероприятие.",
+      "url": ""
+    },
+    {
+      "id": "volkistan-2026-06",
+      "title": "Волкистан",
+      "startDate": "2026-06-27",
+      "endDate": "2026-06-29",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Волкистан — тематический фурри-конвент.",
+      "url": "https://t.me/wolkistan"
+    },
+    {
+      "id": "wildfurrence-2026-07",
+      "title": "WildFurence 26",
+      "startDate": "2026-07-16",
+      "endDate": "2026-07-19",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "Ладога",
+      "description": "Кон на Ладоге",
+      "url": "https://t.me/wfinfo"
+    },
+    {
+      "id": "camping-2026-07-19",
+      "title": "Кемпинг",
+      "startDate": "2026-07-19",
+      "endDate": "2026-07-20",
+      "color": "#10b981",
+      "category": "camping",
+      "location": "",
+      "description": "Июльский кемпинг.",
+      "url": ""
+    },
+    {
+      "id": "turfur-2026-08",
+      "title": "Турфур",
+      "startDate": "2026-08-06",
+      "endDate": "2026-08-09",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Турфур — туристический фурри-конвент.",
+      "url": ""
+    },
+    {
+      "id": "camping-2026-08-29",
+      "title": "Кемпинг",
+      "startDate": "2026-08-29",
+      "endDate": "2026-08-31",
+      "color": "#10b981",
+      "category": "camping",
+      "location": "",
+      "description": "Августовский кемпинг — завершение лета.",
+      "url": ""
+    },
+    {
+      "id": "tupikon-2026-09",
+      "title": "Тупикон",
+      "startDate": "2026-09-10",
+      "endDate": "2026-09-13",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Тупикон — осенний фурри-конвент.",
+      "url": "https://t.me/SillyConNews"
+    },
+    {
+      "id": "epiccon-spb-2026-05",
+      "title": "Epic Con Санкт-Петербург",
+      "startDate": "2026-05-30",
+      "endDate": "2026-05-31",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "Санкт-Петербург",
+      "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
+      "url": "https://epiccon.ru/"
+    },
+    {
+      "id": "epiccon-msk-2026-07",
+      "title": "Epic Con Москва",
+      "startDate": "2026-07-04",
+      "endDate": "2026-07-05",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "Москва",
+      "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
+      "url": "https://epiccon.ru/"
+    },
+    {
+      "id": "furrburgfest-2026-05",
+      "title": "ФуррбургФест 5.0",
+      "startDate": "2026-05-03",
+      "endDate": "2026-05-03",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Санкт-Петербург",
+      "description": "Фурри-маркет в Санкт-Петербурге.",
+      "url": "https://vk.com/fbfests"
+    }
+  ],
+  "categories": [
+    { "id": "convention", "name": "Конвенты", "color": "#3b82f6" },
+    { "id": "camping", "name": "Кемпинги", "color": "#10b981" },
+    { "id": "meetup", "name": "Маркеты", "color": "#f59e0b" },
+    { "id": "tentative", "name": "Под вопросом", "color": "#6b7280" }
+  ],
+  "tentativeEvents": [
+    {
+      "id": "tent-i-luv-it-2026",
+      "title": "i luv it маркет",
+      "estimatedDate": "Дата уточняется",
+      "color": "#6b7280",
+      "category": "meetup",
+      "location": "",
+      "description": "i luv it маркет — дата уточняется",
+      "url": "https://vk.com/event230253960"
+    },
+    {
+      "id": "tent-totem-stolb-2026",
+      "title": "Ивенты от \"Тотемного столба\"",
+      "estimatedDate": "Дата уточняется",
+      "color": "#6b7280",
+      "category": "meetup",
+      "location": "",
+      "description": "Ивенты от \"Тотемного столба\" — даты уточняются",
+      "url": "https://vk.com/event205940695"
+    },
+    {
+      "id": "tent-fall-camping-2026",
+      "title": "Осенний кемпинг",
+      "estimatedDate": "Октябрь 2026",
+      "color": "#6b7280",
+      "category": "camping",
+      "location": "",
+      "description": "Осенний кемпинг — точные даты уточняются",
+      "url": ""
+    },
+    {
+      "id": "tent-furmarket-autumn-2026",
+      "title": "ФурМаркет Осенний",
+      "estimatedDate": "Ноябрь 2026",
+      "color": "#6b7280",
+      "category": "meetup",
+      "location": "",
+      "description": "Осенний маркет — дата уточняется",
+      "url": "https://vk.com/furrmarket"
+    },
+    {
+      "id": "tent-winter-con-2026",
+      "title": "Зимний кон",
+      "estimatedDate": "Декабрь 2026",
+      "color": "#6b7280",
+      "category": "convention",
+      "location": "",
+      "description": "Зимний фурри конвент — даты ориентировочные",
+      "url": ""
+    },
+    {
+      "id": "tent-new-outdoor-2026",
+      "title": "Новый кон на природе",
+      "estimatedDate": "Дата уточняется",
+      "color": "#6b7280",
+      "category": "convention",
+      "location": "",
+      "description": "Планируется новый кон на природе, даты будут объявлены позже",
+      "url": ""
+    },
+    {
+      "id": "tent-anyfurry-2026",
+      "title": "AnyFurry Fest VII",
+      "estimatedDate": "Конец 2026",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва",
+      "description": "Фурри-маркет. Дата уточняется.",
+      "url": "https://vk.com/anyfurryfest"
+    },
+    {
+      "id": "tent-dracon-2026",
+      "title": "DraCon V",
+      "estimatedDate": "5 декабря 2026 (?)",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва",
+      "description": "Вероятнее всего 5 декабря.",
+      "url": "https://vk.com/dracon"
+    },
+    {
+      "id": "tent-kaifur-2026",
+      "title": "Кайфур",
+      "estimatedDate": "Даты неизвестны",
+      "color": "linear-gradient(135deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #a855f7, #ec4899)",
+      "category": "convention",
+      "location": "Неизвестно",
+      "description": "Лучший кон.",
+      "url": ""
+    }
+  ]
+}
