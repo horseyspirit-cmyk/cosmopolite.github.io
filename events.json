@@ -1,6 +1,28 @@
 {
   "events": [
     {
+      "id": "wintertails-2026-01",
+      "title": "Винтертейлз",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-08",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "",
+      "description": "Зимний фурри-конвент.",
+      "url": ""
+    },
+    {
+      "id": "dikiy-market-2026-02",
+      "title": "ДИКИЙ маркет",
+      "startDate": "2026-02-21",
+      "endDate": "2026-02-21",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Санкт-Петербург",
+      "description": "ДИКИЙ маркет — фурри-маркет в Санкт-Петербурге.",
+      "url": "https://vk.com/dikiy_market"
+    },
+    {
       "id": "furmarket-2026-03",
       "title": "Фурмаркет",
       "startDate": "2026-03-22",
@@ -11,7 +33,6 @@
       "description": "Фурри-маркет — ярмарка фурри-товаров, арта и merchandise.",
       "url": "https://vk.com/furrmarket"
     },
-
     {
       "id": "camping-2026-05-01",
       "title": "Кемпинг",
@@ -132,6 +153,28 @@
       "location": "",
       "description": "Тупикон — осенний фурри-конвент.",
       "url": "https://t.me/SillyConNews"
+    },
+    {
+      "id": "epiccon-spb-2026-05",
+      "title": "Epic Con Санкт-Петербург",
+      "startDate": "2026-05-30",
+      "endDate": "2026-05-31",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "Санкт-Петербург",
+      "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
+      "url": ""
+    },
+    {
+      "id": "epiccon-msk-2026-07",
+      "title": "Epic Con Москва",
+      "startDate": "2026-07-04",
+      "endDate": "2026-07-05",
+      "color": "#3b82f6",
+      "category": "convention",
+      "location": "Москва",
+      "description": "Epic Con – масштабный фестиваль фантастики, кино, сериалов и компьютерных игр. Полное погружение в фантастический мир.",
+      "url": ""
     }
   ],
   "categories": [
@@ -141,6 +184,26 @@
     { "id": "tentative", "name": "Под вопросом", "color": "#6b7280" }
   ],
   "tentativeEvents": [
+    {
+      "id": "tent-i-luv-it-2026",
+      "title": "i luv it маркет",
+      "estimatedDate": "Дата уточняется",
+      "color": "#6b7280",
+      "category": "meetup",
+      "location": "",
+      "description": "i luv it маркет — дата уточняется",
+      "url": "https://vk.com/event230253960"
+    },
+    {
+      "id": "tent-totem-stolb-2026",
+      "title": "Ивенты от \"Тотемного столба\"",
+      "estimatedDate": "Дата уточняется",
+      "color": "#6b7280",
+      "category": "meetup",
+      "location": "",
+      "description": "Ивенты от \"Тотемного столба\" — даты уточняются",
+      "url": "https://vk.com/event205940695"
+    },
     {
       "id": "tent-fall-camping-2026",
       "title": "Осенний кемпинг",
