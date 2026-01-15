@@ -40,7 +40,7 @@
       "endDate": "2026-05-04",
       "color": "#10b981",
       "category": "camping",
-      "location": "",
+      "location": "Подмосковье",
       "description": "Майский кемпинг на природе.",
       "url": ""
     },
@@ -73,7 +73,7 @@
       "endDate": "2026-06-15",
       "color": "#10b981",
       "category": "camping",
-      "location": "",
+      "location": "Подмосковье",
       "description": "Июньский кемпинг.",
       "url": ""
     },
@@ -117,7 +117,7 @@
       "endDate": "2026-07-20",
       "color": "#10b981",
       "category": "camping",
-      "location": "",
+      "location": "Подмосковье",
       "description": "Июльский кемпинг.",
       "url": ""
     },
@@ -139,7 +139,7 @@
       "endDate": "2026-08-31",
       "color": "#10b981",
       "category": "camping",
-      "location": "",
+      "location": "Подмосковье",
       "description": "Августовский кемпинг — завершение лета.",
       "url": ""
     },
@@ -221,7 +221,7 @@
       "estimatedDate": "Октябрь 2026",
       "color": "#6b7280",
       "category": "camping",
-      "location": "",
+      "location": "Подмосковье",
       "description": "Осенний кемпинг — точные даты уточняются",
       "url": ""
     },
@@ -279,7 +279,7 @@
       "id": "tent-kaifur-2026",
       "title": "Кайфур",
       "estimatedDate": "Даты неизвестны",
-      "color": "linear-gradient(135deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #a855f7, #ec4899)",
+      "color": "#6b7280",
       "category": "convention",
       "location": "Неизвестно",
       "description": "Лучший кон.",
