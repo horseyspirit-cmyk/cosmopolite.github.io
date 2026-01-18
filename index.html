@@ -124,6 +124,13 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    
+    /* Prevent body scroll when modal is open */
+    body.modal-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-surface-50 dark:bg-surface-950 text-stone-800 dark:text-stone-200 font-sans transition-colors duration-300">
@@ -293,6 +300,7 @@
     let currentView = 'year';
     let currentMonth = null;
     let filterPanelOpen = false;
+    let scrollPosition = 0; // Для сохранения позиции скролла
     
     const MONTH_NAMES = [
       'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -708,6 +716,7 @@
       container.querySelectorAll('[data-event-id]').forEach(el => {
         el.addEventListener('click', (e) => {
           e.stopPropagation();
+          e.preventDefault(); // Предотвращаем возможное поведение по умолчанию
           const eventId = el.dataset.eventId;
           const event = events.find(ev => ev.id === eventId);
           if (event) showEventModal(event);
@@ -809,7 +818,7 @@
                 ${e.url ? `
                   <a href="${e.url}" target="_blank" rel="noopener noreferrer" 
                      class="inline-flex items-center gap-1 text-accent hover:text-accent-dark transition-colors text-sm"
-                     onclick="event.stopPropagation()">
+                     onclick="event.stopPropagation(); event.preventDefault();">
                     <span>Открыть</span>
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -845,7 +854,9 @@
       container.innerHTML = html;
       
       container.querySelectorAll('.event-row').forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
           const eventId = el.dataset.eventId;
           const event = events.find(e => e.id === eventId);
           if (event) showEventModal(event);
@@ -946,6 +957,13 @@
       const isSingleDay = event.startDate === event.endDate;
       const category = categories.find(c => c.id === event.category);
       
+      // Сохраняем позицию скролла перед открытием модального окна
+      scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Блокируем скролл на теле страницы
+      document.body.classList.add('modal-open');
+      document.body.style.top = `-${scrollPosition}px`;
+      
       content.innerHTML = `
         <!-- Modal Header -->
         <div class="flex items-start justify-between p-6 pb-4">
@@ -953,7 +971,7 @@
             <div class="w-3 h-3 rounded-full" style="background-color: ${event.color}"></div>
             <span class="text-sm font-medium text-stone-500 dark:text-stone-400">${category ? category.name : event.category}</span>
           </div>
-          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors">
+          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" aria-label="Закрыть">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -1000,12 +1018,19 @@
       `;
       
       modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
+      
+      // Фокус на модальное окно для предотвращения скролла
+      modal.focus();
     }
     
     function closeEventModal() {
-      document.getElementById('eventModal').classList.add('hidden');
-      document.body.style.overflow = '';
+      const modal = document.getElementById('eventModal');
+      modal.classList.add('hidden');
+      
+      // Восстанавливаем скролл
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPosition);
     }
     
     function renderCurrentView() {
@@ -1071,9 +1096,51 @@
       
       document.getElementById('navEvents').addEventListener('click', () => showEventsListView());
       
-      document.getElementById('modalBackdrop').addEventListener('click', closeEventModal);
+      // Modal close handlers
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalContent = document.getElementById('modalContent');
+      const eventModal = document.getElementById('eventModal');
+      
+      // Close modal when clicking on backdrop (outside modal content)
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) {
+          closeEventModal();
+        }
+      });
+      
+      // Also close when clicking on modal background (backup)
+      eventModal.addEventListener('click', (e) => {
+        if (e.target.id === 'eventModal') {
+          closeEventModal();
+        }
+      });
+      
+      // Prevent clicks inside modal content from closing modal
+      modalContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+      
+      // Escape key to close modal
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeEventModal();
+        if (e.key === 'Escape' && !eventModal.classList.contains('hidden')) {
+          closeEventModal();
+        }
+      });
+      
+      // Предотвращаем скролл страницы когда модальное окно открыто
+      eventModal.addEventListener('touchmove', (e) => {
+        if (!modalContent.contains(e.target)) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+      
+      // Предотвращаем поведение по умолчанию для всех кликов по событиям
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('event-bar') || 
+            e.target.classList.contains('event-card') ||
+            e.target.closest('.event-row')) {
+          e.preventDefault();
+        }
       });
     }
     
