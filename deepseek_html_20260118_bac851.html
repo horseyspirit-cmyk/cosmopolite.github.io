@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Фурри события в РФ за 2026 год</title>
+  <meta name="description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Фурри события в РФ за 2026 год">
+  <meta property="og:description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Фурри события в РФ за 2026 год">
+  <meta name="twitter:description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#d946ef">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            surface: {
+              50: '#fafaf9',
+              100: '#f5f5f4',
+              200: '#e7e5e4',
+              800: '#292524',
+              900: '#1c1917',
+              950: '#0c0a09',
+            },
+            accent: {
+              DEFAULT: '#d946ef',
+              light: '#e879f9',
+              dark: '#a21caf',
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out',
+            'slide-up': 'slideUp 0.4s ease-out',
+            'scale-in': 'scaleIn 0.2s ease-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d4d4d4;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #525252;
+    }
+    
+    /* Today marker pulse */
+    .today-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    /* Event bar hover */
+    .event-bar {
+      transition: all 0.15s ease;
+    }
+    .event-bar:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    
+    /* Month card hover */
+    .month-card {
+      transition: all 0.2s ease;
+    }
+    .month-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+    }
+    
+    /* Line clamp */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* Prevent body scroll when modal is open */
+    body.modal-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-surface-50 dark:bg-surface-950 text-stone-800 dark:text-stone-200 font-sans transition-colors duration-300">
+  
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-surface-50/80 dark:bg-surface-950/80 border-b border-stone-200/50 dark:border-stone-800/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo & Title -->
+        <a href="#" id="homeLink" class="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-fuchsia-600 flex items-center justify-center shadow-lg shadow-accent/25">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-semibold tracking-tight">Фурри календарь</h1>
+            <p class="text-xs text-stone-500 dark:text-stone-400 font-mono">2026</p>
+          </div>
+        </a>
+        
+        <!-- Navigation & Controls -->
+        <div class="flex items-center gap-2">
+          <!-- Back to Year View -->
+          <button id="backBtn" class="hidden items-center gap-2 px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <span>Год</span>
+          </button>
+          
+          <!-- Navigation Tabs -->
+          <nav class="flex items-center bg-stone-100 dark:bg-stone-800 rounded-lg p-1">
+            <button id="navCalendar" class="nav-tab flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all bg-white dark:bg-stone-700 text-stone-900 dark:text-white shadow-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span class="hidden sm:inline">Календарь</span>
+            </button>
+            <button id="navEvents" class="nav-tab flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+              </svg>
+              <span class="hidden sm:inline">Все события</span>
+            </button>
+          </nav>
+          
+          <!-- Filter Toggle -->
+          <button id="filterToggle" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+            </svg>
+            <span class="hidden sm:inline">Фильтры</span>
+            <span id="filterCount" class="hidden min-w-5 h-5 px-1.5 text-xs font-semibold bg-accent text-white rounded-full items-center justify-center"></span>
+          </button>
+          
+          <!-- Theme Toggle -->
+          <button id="themeToggle" class="p-2 text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all" aria-label="Переключить тему">
+            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Filter Panel -->
+    <div id="filterPanel" class="hidden border-t border-stone-200/50 dark:border-stone-800/50 bg-surface-100/50 dark:bg-surface-900/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-wrap items-center gap-2" id="categoryFilters">
+          <!-- Categories will be inserted here by JS -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Year View -->
+    <div id="yearView" class="animate-fade-in">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6" id="monthsGrid">
+        <!-- Months will be inserted here by JS -->
+      </div>
+    </div>
+    
+    <!-- Month View -->
+    <div id="monthView" class="hidden animate-slide-up">
+      <!-- Month navigation and grid will be inserted here by JS -->
+    </div>
+    
+    <!-- Events List View -->
+    <div id="eventsListView" class="hidden animate-fade-in">
+      <!-- Events list will be inserted here by JS -->
+    </div>
+
+    <!-- Uncertain Events Section -->
+    <div id="uncertainSection" class="hidden mt-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30">
+          <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200">Ещё не подтверждённые события</h2>
+          <p class="text-sm text-stone-500 dark:text-stone-400">Эти события запланированы, но точные даты пока не известны</p>
+        </div>
+      </div>
+      
+      <div class="bg-white dark:bg-surface-900 rounded-2xl shadow-sm overflow-hidden border-2 border-dashed border-amber-300 dark:border-amber-700">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-stone-200 dark:border-stone-700">
+                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Название</th>
+                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Примерные даты</th>
+                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden sm:table-cell">Тип</th>
+                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden md:table-cell">Место</th>
+                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Ссылка</th>
+              </tr>
+            </thead>
+            <tbody id="uncertainEventsBody">
+              <!-- Uncertain events will be inserted here by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Event Modal -->
+  <div id="eventModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="modalBackdrop"></div>
+    
+    <!-- Modal Content -->
+    <div class="absolute inset-0 overflow-y-auto">
+      <div class="flex min-h-full items-center justify-center p-4">
+        <div id="modalContent" class="relative w-full max-w-lg bg-white dark:bg-surface-900 rounded-2xl shadow-2xl animate-scale-in">
+          <!-- Content will be inserted here by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8 border-t border-stone-200 dark:border-stone-800">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-stone-500 dark:text-stone-400">
+      <span class="flex items-center gap-2">
+        <span class="w-6 h-6 rounded-lg bg-accent/20 dark:bg-accent/30 flex items-center justify-center text-xs font-bold text-accent">12</span>
+        <span>Сегодня</span>
+      </span>
+      <span class="text-stone-300 dark:text-stone-600">•</span>
+      <span>Кликните на событие для подробностей</span>
+    </div>
+  </footer>
+
+  <script>
+    // ============ State ============
+    let events = [];
+    let categories = [];
+    let tentativeEvents = [];
+    let activeFilters = new Set();
+    let currentView = 'year';
+    let currentMonth = null;
+    let filterPanelOpen = false;
+    let scrollPosition = 0; // Для сохранения позиции скролла
+    
+    const MONTH_NAMES = [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+    const MONTH_NAMES_GEN = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+    const DAY_NAMES = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const YEAR = 2026;
+    
+    // ============ Utilities ============
+    function parseDate(dateStr) {
+      const [year, month, day] = dateStr.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+    
+    function formatDate(date) {
+      return `${date.getDate()} ${MONTH_NAMES_GEN[date.getMonth()]} ${date.getFullYear()}`;
+    }
+    
+    function formatDateShort(date) {
+      return `${date.getDate()} ${MONTH_NAMES_GEN[date.getMonth()].slice(0, 3)}`;
+    }
+    
+    function isSameDay(d1, d2) {
+      return d1.getFullYear() === d2.getFullYear() &&
+             d1.getMonth() === d2.getMonth() &&
+             d1.getDate() === d2.getDate();
+    }
+    
+    function isToday(date) {
+      return isSameDay(date, new Date());
+    }
+    
+    function getDaysInMonth(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+    
+    function getFirstDayOfMonth(year, month) {
+      const day = new Date(year, month, 1).getDay();
+      return day === 0 ? 6 : day - 1;
+    }
+    
+    function isHoliday(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+      
+      // Официальные праздники России в 2026 году
+      const holidays = [
+        [year, 0, 1], [year, 0, 2], [year, 0, 3], [year, 0, 4], [year, 0, 5],
+        [year, 0, 6], [year, 0, 7], [year, 0, 8], [year, 0, 9], [year, 0, 10], [year, 0, 11], // Новогодние каникулы (1-11 января)
+        [year, 1, 23], // День защитника Отечества
+        [year, 2, 8], // Международный женский день
+        [year, 4, 1], // Праздник Весны и Труда
+        [year, 4, 9], // День Победы
+        [year, 5, 12], // День России
+        [year, 10, 4], // День народного единства
+      ];
+      
+      return holidays.some(([y, m, d]) => y === year && m === month && d === day);
+    }
+    
+    function isWeekendOrHoliday(date) {
+      const dayOfWeek = date.getDay();
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Воскресенье или суббота
+      return isWeekend || isHoliday(date);
+    }
+    
+    function getEventsForDate(date) {
+      return events.filter(event => {
+        if (activeFilters.size > 0 && !activeFilters.has(event.category)) {
+          return false;
+        }
+        const start = parseDate(event.startDate);
+        const end = parseDate(event.endDate);
+        return date >= start && date <= end;
+      }).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate));
+    }
+    
+    function getEventsForMonth(year, month) {
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      
+      return events.filter(event => {
+        if (activeFilters.size > 0 && !activeFilters.has(event.category)) {
+          return false;
+        }
+        const start = parseDate(event.startDate);
+        const end = parseDate(event.endDate);
+        return !(end < firstDay || start > lastDay);
+      });
+    }
+    
+    // ============ URL State ============
+    function updateURL() {
+      const params = new URLSearchParams();
+      if (activeFilters.size > 0) {
+        params.set('categories', Array.from(activeFilters).join(','));
+      }
+      if (currentView === 'list') {
+        params.set('view', 'list');
+      } else if (currentView === 'month' && currentMonth !== null) {
+        params.set('month', currentMonth + 1);
+      }
+      const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+      history.replaceState(null, '', newURL);
+    }
+    
+    function loadFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const cats = params.get('categories');
+      if (cats) {
+        cats.split(',').forEach(c => activeFilters.add(c));
+      }
+      const view = params.get('view');
+      if (view === 'list') {
+        currentView = 'list';
+      } else {
+        const month = params.get('month');
+        if (month) {
+          const m = parseInt(month) - 1;
+          if (m >= 0 && m < 12) {
+            currentMonth = m;
+            currentView = 'month';
+          }
+        }
+      }
+    }
+    
+    // ============ Theme ============
+    function initTheme() {
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+    
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    }
+    
+    // ============ Filters ============
+    function toggleFilterPanel() {
+      filterPanelOpen = !filterPanelOpen;
+      document.getElementById('filterPanel').classList.toggle('hidden', !filterPanelOpen);
+    }
+    
+    function updateFilterCount() {
+      const countEl = document.getElementById('filterCount');
+      if (activeFilters.size > 0) {
+        countEl.textContent = activeFilters.size;
+        countEl.classList.remove('hidden');
+        countEl.classList.add('flex');
+      } else {
+        countEl.classList.add('hidden');
+        countEl.classList.remove('flex');
+      }
+    }
+    
+    function renderCategoryFilters() {
+      const container = document.getElementById('categoryFilters');
+      container.innerHTML = categories.map(cat => `
+        <button 
+          data-category="${cat.id}"
+          class="category-filter flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all
+                 ${activeFilters.has(cat.id) 
+                     ? 'ring-2 ring-offset-2 ring-offset-white dark:ring-offset-surface-900 bg-white dark:bg-surface-800 shadow-sm' 
+                     : 'bg-white/50 dark:bg-surface-800/50 hover:bg-white dark:hover:bg-surface-800'}"
+          style="${activeFilters.has(cat.id) ? `ring-color: ${cat.color}` : ''}"
+        >
+          <span class="w-3 h-3 rounded-full" style="background-color: ${cat.color}"></span>
+          ${cat.name}
+        </button>
+      `).join('');
+      
+      container.querySelectorAll('.category-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.dataset.category;
+          if (activeFilters.has(cat)) {
+            activeFilters.delete(cat);
+          } else {
+            activeFilters.add(cat);
+          }
+          updateURL();
+          updateFilterCount();
+          renderCategoryFilters();
+          renderCurrentView();
+        });
+      });
+    }
+    
+    // ============ Rendering ============
+    function renderMiniMonth(year, month) {
+      const daysInMonth = getDaysInMonth(year, month);
+      const firstDay = getFirstDayOfMonth(year, month);
+      const monthEvents = getEventsForMonth(year, month);
+      
+      let html = `
+        <div class="month-card bg-white dark:bg-surface-900 rounded-2xl p-4 shadow-sm border border-stone-200/50 dark:border-stone-800/50 cursor-pointer" data-month="${month}">
+          <h3 class="font-semibold text-lg mb-3 text-center">${MONTH_NAMES[month]}</h3>
+          <div class="grid grid-cols-7 gap-1 text-xs mb-3">
+      `;
+      
+      // Day headers
+      DAY_NAMES.forEach(day => {
+        html += `<div class="text-center text-stone-400 dark:text-stone-500 font-medium py-1">${day}</div>`;
+      });
+      
+      // Empty cells
+      for (let i = 0; i < firstDay; i++) {
+        html += `<div></div>`;
+      }
+      
+      // Days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const dayEvents = getEventsForDate(date);
+        const isCurrentDay = isToday(date);
+        const isWeekendOrHolidayDay = isWeekendOrHoliday(date);
+        
+        // Get unique colors for this day (max 3)
+        const eventColors = [...new Set(dayEvents.map(e => e.color))].slice(0, 3);
+        
+        let dayClass = 'text-xs';
+        if (isCurrentDay) {
+          dayClass += ' font-bold text-accent';
+        } else if (isWeekendOrHolidayDay) {
+          dayClass += ' text-red-500 dark:text-red-400';
+        }
+        
+        html += `
+          <div class="relative aspect-square flex items-center justify-center rounded-lg overflow-hidden
+                      ${isCurrentDay ? 'ring-2 ring-accent ring-offset-1' : ''}">
+            <span class="${dayClass}">${day}</span>
+            ${eventColors.length > 0 ? `
+              <div class="absolute bottom-0 left-0 right-0 h-2 flex gap-0.5 px-0.5 pb-0.5">
+                ${eventColors.map(color => `
+                  <div class="flex-1 rounded-full" style="background-color: ${color}"></div>
+                `).join('')}
+              </div>
+            ` : ''}
+            ${isCurrentDay && eventColors.length === 0 ? `<div class="absolute inset-0 bg-accent/20 dark:bg-accent/30 today-pulse rounded-lg"></div>` : ''}
+          </div>
+        `;
+      }
+      
+      html += `</div>`;
+      
+      // Event summary
+      if (monthEvents.length > 0) {
+        html += `
+          <div class="pt-3 border-t border-stone-100 dark:border-stone-800 space-y-1.5">
+            ${monthEvents.slice(0, 3).map(e => `
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color: ${e.color}"></span>
+                <span class="truncate text-stone-600 dark:text-stone-400">${e.title}</span>
+              </div>
+            `).join('')}
+            ${monthEvents.length > 3 ? `<div class="text-xs text-stone-400 pl-3.5">+${monthEvents.length - 3} ещё</div>` : ''}
+          </div>
+        `;
+      }
+      
+      html += `</div>`;
+      return html;
+    }
+    
+    function renderYearView() {
+      const container = document.getElementById('monthsGrid');
+      container.innerHTML = '';
+      
+      for (let month = 0; month < 12; month++) {
+        container.innerHTML += renderMiniMonth(YEAR, month);
+      }
+      
+      container.querySelectorAll('.month-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const month = parseInt(card.dataset.month);
+          showMonthView(month);
+        });
+      });
+      
+      document.getElementById('yearView').classList.remove('hidden');
+      document.getElementById('monthView').classList.add('hidden');
+      document.getElementById('eventsListView').classList.add('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      document.getElementById('backBtn').classList.remove('flex');
+      
+      currentView = 'year';
+      currentMonth = null;
+      renderUncertainEvents();
+      updateURL();
+    }
+    
+    function renderMonthView(month) {
+      const container = document.getElementById('monthView');
+      const daysInMonth = getDaysInMonth(YEAR, month);
+      const firstDay = getFirstDayOfMonth(YEAR, month);
+      const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+      const monthEvents = getEventsForMonth(YEAR, month);
+      
+      let html = `
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">${MONTH_NAMES[month]} ${YEAR}</h2>
+          <div class="flex items-center gap-2">
+            <button onclick="navigateMonth(-1)" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all ${month === 0 ? 'invisible' : ''}">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <button onclick="navigateMonth(1)" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all ${month === 11 ? 'invisible' : ''}">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Weekday Headers -->
+        <div class="grid grid-cols-7 mb-2">
+          ${DAY_NAMES.map(day => `
+            <div class="text-center text-xs font-medium text-stone-500 dark:text-stone-400 py-2">${day}</div>
+          `).join('')}
+        </div>
+        
+        <!-- Calendar Grid -->
+        <div class="grid grid-cols-7 gap-px bg-stone-200 dark:bg-stone-700 rounded-xl overflow-hidden shadow-sm">
+      `;
+      
+      for (let i = 0; i < totalCells; i++) {
+        const day = i - firstDay + 1;
+        const isValidDay = day > 0 && day <= daysInMonth;
+        const date = isValidDay ? new Date(YEAR, month, day) : null;
+        const isCurrentDay = date && isToday(date);
+        const dayEvents = isValidDay ? getEventsForDate(date) : [];
+        const isWeekend = i % 7 === 5 || i % 7 === 6;
+        const isWeekendOrHolidayDay = date && isWeekendOrHoliday(date);
+        
+        let daySpanClass = 'w-7 h-7 flex items-center justify-center text-sm font-medium rounded-lg';
+        if (isCurrentDay) {
+          daySpanClass += ' bg-accent/20 dark:bg-accent/30 text-accent font-bold today-pulse';
+        } else if (isWeekendOrHolidayDay) {
+          daySpanClass += ' text-red-500 dark:text-red-400';
+        } else {
+          daySpanClass += ' text-stone-700 dark:text-stone-300';
+        }
+        
+        html += `
+          <div class="min-h-[100px] sm:min-h-[120px] bg-white dark:bg-surface-900 ${!isValidDay ? 'bg-stone-50 dark:bg-surface-950' : ''} ${isWeekend && isValidDay ? 'bg-stone-50/50 dark:bg-surface-950/50' : ''}">
+            ${isValidDay ? `
+              <div class="p-1 sm:p-2 h-full flex flex-col">
+                <div class="flex items-center justify-center mb-1">
+                  <span class="${daySpanClass}">
+                    ${day}
+                  </span>
+                </div>
+                <div class="flex-1 space-y-0.5 overflow-hidden">
+                  ${dayEvents.slice(0, 3).map(e => `
+                    <div class="event-bar text-xs px-1.5 py-0.5 rounded truncate cursor-pointer text-white font-medium"
+                         style="background-color: ${e.color}"
+                         data-event-id="${e.id}">
+                      ${e.title}
+                    </div>
+                  `).join('')}
+                  ${dayEvents.length > 3 ? `<div class="text-xs text-stone-400 px-1">+${dayEvents.length - 3}</div>` : ''}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+      
+      html += `</div>`;
+      
+      // Events list for month
+      if (monthEvents.length > 0) {
+        html += `
+          <div class="mt-6">
+            <h3 class="text-lg font-semibold mb-4">События в ${MONTH_NAMES[month].toLowerCase()}</h3>
+            <div class="space-y-3">
+              ${monthEvents.map(e => {
+                const startDate = parseDate(e.startDate);
+                const endDate = parseDate(e.endDate);
+                const isSingleDay = e.startDate === e.endDate;
+                return `
+                  <div class="bg-white dark:bg-surface-900 rounded-xl p-4 shadow-sm border border-stone-200/50 dark:border-stone-800/50 cursor-pointer hover:shadow-md transition-shadow event-card" data-event-id="${e.id}">
+                    <div class="flex items-start gap-3">
+                      <div class="w-1 h-12 rounded-full flex-shrink-0" style="background-color: ${e.color}"></div>
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-stone-900 dark:text-white">${e.title}</h4>
+                        <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">
+                          ${formatDate(startDate)}${!isSingleDay ? ` — ${formatDate(endDate)}` : ''}
+                        </p>
+                        ${e.location ? `<p class="text-sm text-stone-500 dark:text-stone-400">${e.location}</p>` : ''}
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+      
+      // Add event click handlers
+      container.querySelectorAll('[data-event-id]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault(); // Предотвращаем возможное поведение по умолчанию
+          const eventId = el.dataset.eventId;
+          const event = events.find(ev => ev.id === eventId);
+          if (event) showEventModal(event);
+        });
+      });
+      
+      document.getElementById('yearView').classList.add('hidden');
+      document.getElementById('monthView').classList.remove('hidden');
+      document.getElementById('eventsListView').classList.add('hidden');
+      document.getElementById('backBtn').classList.remove('hidden');
+      document.getElementById('backBtn').classList.add('flex');
+      
+      renderUncertainEvents();
+    }
+    
+    function showMonthView(month) {
+      currentMonth = month;
+      currentView = 'month';
+      renderMonthView(month);
+      updateURL();
+    }
+    
+    function navigateMonth(delta) {
+      const newMonth = currentMonth + delta;
+      if (newMonth >= 0 && newMonth < 12) {
+        currentMonth = newMonth;
+        renderMonthView(currentMonth);
+        updateURL();
+      }
+    }
+    
+    // ============ Events List View ============
+    function renderEventsListView() {
+      const container = document.getElementById('eventsListView');
+      
+      const filteredEvents = events.filter(e => 
+        activeFilters.size === 0 || activeFilters.has(e.category)
+      ).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate));
+      
+      let html = `
+        <div class="mb-6">
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Все события ${YEAR}</h2>
+          <p class="text-stone-500 dark:text-stone-400 mt-1">${filteredEvents.length} событий</p>
+        </div>
+        
+        <!-- Events Table -->
+        <div class="bg-white dark:bg-surface-900 rounded-2xl shadow-sm overflow-hidden border-2 border-dashed border-accent/40 dark:border-accent/60">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-stone-200 dark:border-stone-700">
+                  <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Название</th>
+                  <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Даты</th>
+                  <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden sm:table-cell">Тип</th>
+                  <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden md:table-cell">Место</th>
+                  <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Ссылка</th>
+                </tr>
+              </thead>
+              <tbody>
+      `;
+      
+      if (filteredEvents.length === 0) {
+        html += `
+          <tr>
+            <td colspan="5" class="px-6 py-12 text-center">
+              <svg class="w-16 h-16 mx-auto text-stone-300 dark:text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <p class="mt-4 text-stone-500 dark:text-stone-400">Нет событий для отображения</p>
+            </td>
+          </tr>
+        `;
+      } else {
+        filteredEvents.forEach(e => {
+          const startDate = parseDate(e.startDate);
+          const endDate = parseDate(e.endDate);
+          const isSingleDay = e.startDate === e.endDate;
+          const category = categories.find(c => c.id === e.category);
+          const dateStr = isSingleDay 
+            ? formatDate(startDate) 
+            : `${startDate.getDate()} ${MONTH_NAMES_GEN[startDate.getMonth()]} — ${endDate.getDate()} ${MONTH_NAMES_GEN[endDate.getMonth()]}`;
+          
+          html += `
+            <tr class="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer event-row" data-event-id="${e.id}">
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-1 h-8 rounded-full" style="background-color: ${e.color}"></div>
+                  <span class="font-medium text-stone-900 dark:text-white">${e.title}</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-stone-600 dark:text-stone-300 text-sm">${dateStr}</td>
+              <td class="px-6 py-4 hidden sm:table-cell">
+                <span class="px-2 py-1 rounded-full text-xs font-medium" style="background-color: ${e.color}20; color: ${e.color}">
+                  ${category ? category.name : e.category}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-stone-500 dark:text-stone-400 hidden md:table-cell">${e.location || '—'}</td>
+              <td class="px-6 py-4">
+                ${e.url ? `
+                  <a href="${e.url}" target="_blank" rel="noopener noreferrer" 
+                     class="inline-flex items-center gap-1 text-accent hover:text-accent-dark transition-colors text-sm"
+                     onclick="event.stopPropagation(); event.preventDefault();">
+                    <span>Открыть</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                  </a>
+                ` : '<span class="text-stone-400 dark:text-stone-500">—</span>'}
+              </td>
+            </tr>
+          `;
+        });
+      }
+      
+      html += `
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm text-stone-500 dark:text-stone-400">
+          <span class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-gradient-to-br from-accent to-fuchsia-600"></span>
+            <span>Подтверждённые события</span>
+          </span>
+          <span class="text-stone-300 dark:text-stone-600">•</span>
+          <span class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <span>Даты не подтверждены</span>
+          </span>
+        </div>
+      `;
+      
+      container.innerHTML = html;
+      
+      container.querySelectorAll('.event-row').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const eventId = el.dataset.eventId;
+          const event = events.find(e => e.id === eventId);
+          if (event) showEventModal(event);
+        });
+      });
+    }
+    
+    function showEventsListView() {
+      currentView = 'list';
+      document.getElementById('yearView').classList.add('hidden');
+      document.getElementById('monthView').classList.add('hidden');
+      document.getElementById('eventsListView').classList.remove('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      document.getElementById('backBtn').classList.remove('flex');
+      
+      // Update nav tabs
+      document.getElementById('navCalendar').classList.remove('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
+      document.getElementById('navCalendar').classList.add('text-stone-600', 'dark:text-stone-400');
+      document.getElementById('navEvents').classList.add('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
+      document.getElementById('navEvents').classList.remove('text-stone-600', 'dark:text-stone-400');
+      
+      renderEventsListView();
+      renderUncertainEvents();
+      updateURL();
+    }
+    
+    function showCalendarView() {
+      document.getElementById('eventsListView').classList.add('hidden');
+      
+      // Update nav tabs
+      document.getElementById('navEvents').classList.remove('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
+      document.getElementById('navEvents').classList.add('text-stone-600', 'dark:text-stone-400');
+      document.getElementById('navCalendar').classList.add('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
+      document.getElementById('navCalendar').classList.remove('text-stone-600', 'dark:text-stone-400');
+      
+      if (currentMonth !== null && currentView === 'month') {
+        renderMonthView(currentMonth);
+      } else {
+        renderYearView();
+      }
+    }
+    
+    // ============ Uncertain Events ============
+    function renderUncertainEvents() {
+      const section = document.getElementById('uncertainSection');
+      const tbody = document.getElementById('uncertainEventsBody');
+      
+      if (!tentativeEvents || tentativeEvents.length === 0) {
+        section.classList.add('hidden');
+        return;
+      }
+      
+      section.classList.remove('hidden');
+      
+      tbody.innerHTML = tentativeEvents.map(event => {
+        const category = categories.find(c => c.id === event.category);
+        const categoryName = category ? category.name : event.category;
+        const categoryColor = category ? category.color : '#6b7280';
+        
+        return `
+        <tr class="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors">
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <div class="w-1 h-8 rounded-full bg-amber-500"></div>
+              <span class="font-medium text-stone-900 dark:text-white">${event.title}</span>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-stone-600 dark:text-stone-300">${event.estimatedDate}</td>
+          <td class="px-6 py-4 text-stone-500 dark:text-stone-400 hidden sm:table-cell">
+            <span class="px-2 py-1 rounded-full text-xs font-medium" style="background-color: ${categoryColor}20; color: ${categoryColor}">
+              ${categoryName}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-stone-500 dark:text-stone-400 hidden md:table-cell">${event.location || '—'}</td>
+          <td class="px-6 py-4">
+            ${event.url ? `
+              <a href="${event.url}" target="_blank" rel="noopener noreferrer" 
+                 class="inline-flex items-center gap-1 text-accent hover:text-accent-dark transition-colors text-sm">
+                <span>Открыть</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            ` : '<span class="text-stone-400 dark:text-stone-500">—</span>'}
+          </td>
+        </tr>
+      `;
+      }).join('');
+    }
+    
+    // ============ Modal ============
+    function showEventModal(event) {
+      const modal = document.getElementById('eventModal');
+      const content = document.getElementById('modalContent');
+      
+      const startDate = parseDate(event.startDate);
+      const endDate = parseDate(event.endDate);
+      const isSingleDay = event.startDate === event.endDate;
+      const category = categories.find(c => c.id === event.category);
+      
+      // Сохраняем позицию скролла перед открытием модального окна
+      scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Блокируем скролл на теле страницы
+      document.body.classList.add('modal-open');
+      document.body.style.top = `-${scrollPosition}px`;
+      
+      content.innerHTML = `
+        <!-- Modal Header -->
+        <div class="flex items-start justify-between p-6 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full" style="background-color: ${event.color}"></div>
+            <span class="text-sm font-medium text-stone-500 dark:text-stone-400">${category ? category.name : event.category}</span>
+          </div>
+          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" aria-label="Закрыть">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="px-6 pb-6">
+          <h3 class="text-2xl font-bold tracking-tight mb-4">${event.title}</h3>
+          
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center gap-3 text-stone-600 dark:text-stone-300">
+              <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span class="text-sm">${formatDate(startDate)}${!isSingleDay ? ` — ${formatDate(endDate)}` : ''}</span>
+            </div>
+            
+            ${event.location ? `
+              <div class="flex items-center gap-3 text-stone-600 dark:text-stone-300">
+                <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span class="text-sm">${event.location}</span>
+              </div>
+            ` : ''}
+          </div>
+          
+          ${event.description ? `
+            <p class="text-stone-600 dark:text-stone-300 leading-relaxed mb-6">${event.description}</p>
+          ` : ''}
+          
+          ${event.url ? `
+            <a href="${event.url}" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-dark text-white font-medium rounded-xl transition-colors shadow-lg shadow-accent/25">
+              <span>Подробнее</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          ` : ''}
+        </div>
+      `;
+      
+      modal.classList.remove('hidden');
+      
+      // Фокус на модальное окно для предотвращения скролла
+      modal.focus();
+    }
+    
+    function closeEventModal() {
+      const modal = document.getElementById('eventModal');
+      modal.classList.add('hidden');
+      
+      // Восстанавливаем скролл
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPosition);
+    }
+    
+    function renderCurrentView() {
+      if (currentView === 'list') {
+        renderEventsListView();
+      } else if (currentView === 'month' && currentMonth !== null) {
+        renderMonthView(currentMonth);
+      } else {
+        renderYearView();
+      }
+      renderUncertainEvents();
+    }
+    
+    // ============ Initialization ============
+    async function init() {
+      initTheme();
+      
+      try {
+        const response = await fetch('events.json');
+        const data = await response.json();
+        events = data.events || [];
+        categories = data.categories || [];
+        tentativeEvents = data.tentativeEvents || [];
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        events = [];
+        categories = [];
+        tentativeEvents = [];
+      }
+      
+      loadFromURL();
+      updateFilterCount();
+      renderCategoryFilters();
+      
+      if (currentView === 'list') {
+        showEventsListView();
+      } else if (currentView === 'month' && currentMonth !== null) {
+        renderMonthView(currentMonth);
+        document.getElementById('backBtn').classList.remove('hidden');
+        document.getElementById('backBtn').classList.add('flex');
+        renderUncertainEvents();
+      } else {
+        renderYearView();
+        renderUncertainEvents();
+      }
+      
+      // Event listeners
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      document.getElementById('filterToggle').addEventListener('click', toggleFilterPanel);
+      document.getElementById('backBtn').addEventListener('click', () => renderYearView());
+      document.getElementById('homeLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        renderYearView();
+      });
+      
+      document.getElementById('navCalendar').addEventListener('click', () => {
+        if (currentView === 'list') {
+          currentView = 'year';
+          currentMonth = null;
+        }
+        showCalendarView();
+      });
+      
+      document.getElementById('navEvents').addEventListener('click', () => showEventsListView());
+      
+      // Modal close handlers
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalContent = document.getElementById('modalContent');
+      const eventModal = document.getElementById('eventModal');
+      
+      // Close modal when clicking on backdrop (outside modal content)
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) {
+          closeEventModal();
+        }
+      });
+      
+      // Also close when clicking on modal background (backup)
+      eventModal.addEventListener('click', (e) => {
+        if (e.target.id === 'eventModal') {
+          closeEventModal();
+        }
+      });
+      
+      // Prevent clicks inside modal content from closing modal
+      modalContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+      
+      // Escape key to close modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !eventModal.classList.contains('hidden')) {
+          closeEventModal();
+        }
+      });
+      
+      // Предотвращаем скролл страницы когда модальное окно открыто
+      eventModal.addEventListener('touchmove', (e) => {
+        if (!modalContent.contains(e.target)) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+      
+      // Предотвращаем поведение по умолчанию для всех кликов по событиям
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('event-bar') || 
+            e.target.classList.contains('event-card') ||
+            e.target.closest('.event-row')) {
+          e.preventDefault();
+        }
+      });
+    }
+    
+    window.navigateMonth = navigateMonth;
+    window.closeEventModal = closeEventModal;
+    
+    init();
+  </script>
+</body>
+</html>
