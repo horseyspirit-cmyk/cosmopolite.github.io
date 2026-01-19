@@ -1142,11 +1142,7 @@
       document.body.style.overflow = 'hidden';
       
       // Добавляем обработчик клика по фону
-      modal.addEventListener('click', function(e) {
-        if (e.target === this || e.target.id === 'modalBackdrop') {
-          closeEventModal();
-        }
-      });
+      document.getElementById('modalBackdrop').addEventListener('click', closeEventModal);
     }
     
     function closeEventModal() {
