@@ -216,16 +216,6 @@
       "url": "https://vk.com/event205940695"
     },
     {
-      "id": "tent-fall-camping-2026",
-      "title": "Осенний кемпинг",
-      "estimatedDate": "Октябрь 2026",
-      "color": "#6b7280",
-      "category": "camping",
-      "location": "Подмосковье",
-      "description": "Осенний кемпинг — точные даты уточняются",
-      "url": ""
-    },
-    {
       "id": "tent-furmarket-autumn-2026",
       "title": "ФурМаркет Осенний",
       "estimatedDate": "Ноябрь 2026",
@@ -234,26 +224,6 @@
       "location": "",
       "description": "Осенний маркет — дата уточняется",
       "url": "https://vk.com/furrmarket"
-    },
-    {
-      "id": "tent-winter-con-2026",
-      "title": "Зимний кон",
-      "estimatedDate": "Декабрь 2026",
-      "color": "#6b7280",
-      "category": "convention",
-      "location": "",
-      "description": "Зимний фурри конвент — даты ориентировочные",
-      "url": ""
-    },
-    {
-      "id": "tent-new-outdoor-2026",
-      "title": "Новый кон на природе",
-      "estimatedDate": "Дата уточняется",
-      "color": "#6b7280",
-      "category": "convention",
-      "location": "",
-      "description": "Планируется новый кон на природе, даты будут объявлены позже",
-      "url": ""
     },
     {
       "id": "tent-anyfurry-2026",
