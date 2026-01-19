@@ -1140,9 +1140,6 @@
       
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-      
-      // Добавляем обработчик клика по фону
-      document.getElementById('modalBackdrop').addEventListener('click', closeEventModal);
     }
     
     function closeEventModal() {
@@ -1338,6 +1335,14 @@
       // Обработчики для модального окна
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeEventModal();
+      });
+      
+      // Обработчик клика по фону модального окна
+      document.getElementById('modalBackdrop').addEventListener('click', closeEventModal);
+      document.getElementById('eventModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeEventModal();
+        }
       });
       
       // Export button
