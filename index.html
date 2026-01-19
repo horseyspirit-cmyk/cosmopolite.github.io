@@ -1023,9 +1023,23 @@
         return;
       }
       
+      // Фильтруем события, которые нужно скрыть
+      const eventsToHide = [
+        'tent-winter-con-2026',     // Зимний кон
+        'tent-new-outdoor-2026',    // Новый кон на природе
+        'tent-fall-camping-2026'    // Осенний кемпинг
+      ];
+      
+      const filteredEvents = tentativeEvents.filter(event => !eventsToHide.includes(event.id));
+      
+      if (filteredEvents.length === 0) {
+        section.classList.add('hidden');
+        return;
+      }
+      
       section.classList.remove('hidden');
       
-      tbody.innerHTML = tentativeEvents.map(event => {
+      tbody.innerHTML = filteredEvents.map(event => {
         const category = categories.find(c => c.id === event.category);
         const categoryName = category ? category.name : event.category;
         const categoryColor = category ? category.color : '#6b7280';
