@@ -1337,16 +1337,28 @@
         if (e.key === 'Escape') closeEventModal();
       });
       
-      // Обработчик клика по фону модального окна
-      document.getElementById('modalBackdrop').addEventListener('click', closeEventModal);
-      document.getElementById('eventModal').addEventListener('click', function(e) {
+      // Export button
+      document.getElementById('exportBtn').addEventListener('click', generateICS);
+      
+      // Простой и надежный обработчик для закрытия модального окна
+      setupModalCloseHandlers();
+    }
+    
+    // Надежная функция для настройки обработчиков закрытия модального окна
+    function setupModalCloseHandlers() {
+      const modal = document.getElementById('eventModal');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      
+      // Обработчик для клика по фону
+      modalBackdrop.addEventListener('click', closeEventModal);
+      
+      // Обработчик для клика по всему модальному окну
+      modal.addEventListener('click', function(e) {
+        // Если кликнули не на содержимое модального окна, а на фон
         if (e.target === this) {
           closeEventModal();
         }
       });
-      
-      // Export button
-      document.getElementById('exportBtn').addEventListener('click', generateICS);
     }
     
     window.navigateMonth = navigateMonth;
