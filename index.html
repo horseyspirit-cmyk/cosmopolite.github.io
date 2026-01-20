@@ -1092,7 +1092,7 @@
             <div class="w-3 h-3 rounded-full" style="background-color: ${event.color}"></div>
             <span class="text-sm font-medium text-stone-500 dark:text-stone-400">${category ? category.name : event.category}</span>
           </div>
-          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors">
+          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors close-modal-btn">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -1140,6 +1140,12 @@
       
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      
+      // Добавляем обработчик для кнопки закрытия
+      const closeBtn = content.querySelector('.close-modal-btn');
+      if (closeBtn) {
+        closeBtn.onclick = closeEventModal;
+      }
     }
     
     function closeEventModal() {
@@ -1337,28 +1343,20 @@
         if (e.key === 'Escape') closeEventModal();
       });
       
-      // Export button
-      document.getElementById('exportBtn').addEventListener('click', generateICS);
-      
-      // Простой и надежный обработчик для закрытия модального окна
-      setupModalCloseHandlers();
-    }
-    
-    // Надежная функция для настройки обработчиков закрытия модального окна
-    function setupModalCloseHandlers() {
-      const modal = document.getElementById('eventModal');
-      const modalBackdrop = document.getElementById('modalBackdrop');
-      
-      // Обработчик для клика по фону
-      modalBackdrop.addEventListener('click', closeEventModal);
-      
-      // Обработчик для клика по всему модальному окну
-      modal.addEventListener('click', function(e) {
-        // Если кликнули не на содержимое модального окна, а на фон
-        if (e.target === this) {
+      // Самый простой и надежный способ - обрабатываем клик на всем документе
+      document.addEventListener('click', function(e) {
+        const modal = document.getElementById('eventModal');
+        const modalContent = document.getElementById('modalContent');
+        
+        // Если модальное окно открыто И клик был НЕ на содержимом модального окна
+        if (!modal.classList.contains('hidden') && 
+            !modalContent.contains(e.target)) {
           closeEventModal();
         }
       });
+      
+      // Export button
+      document.getElementById('exportBtn').addEventListener('click', generateICS);
     }
     
     window.navigateMonth = navigateMonth;
