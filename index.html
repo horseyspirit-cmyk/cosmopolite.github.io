@@ -1,988 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Фурри события в РФ за 2026 год</title>
-  <meta name="description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
-  
-  <!-- Open Graph / Social Media -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Фурри события в РФ за 2026 год">
-  <meta property="og:description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
-  <meta property="og:locale" content="ru_RU">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Фурри события в РФ за 2026 год">
-  <meta name="twitter:description" content="Календарь фурри-событий на 2026 год. Конвенции, кемпинги, маркеты и многое другое.">
-  
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#d946ef">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Outfit', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            surface: {
-              50: '#fafaf9',
-              100: '#f5f5f4',
-              200: '#e7e5e4',
-              800: '#292524',
-              900: '#1c1917',
-              950: '#0c0a09',
-            },
-            accent: {
-              DEFAULT: '#d946ef',
-              light: '#e879f9',
-              dark: '#a21caf',
-            }
-          },
-          animation: {
-            'fade-in': 'fadeIn 0.3s ease-out',
-            'slide-up': 'slideUp 0.4s ease-out',
-            'scale-in': 'scaleIn 0.2s ease-out',
-          },
-          keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            slideUp: {
-              '0%': { opacity: '0', transform: 'translateY(20px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            scaleIn: {
-              '0%': { opacity: '0', transform: 'scale(0.95)' },
-              '100%': { opacity: '1', transform: 'scale(1)' },
-            },
-          },
-        },
-      },
-    }
-  </script>
-  
-  <style>
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #d4d4d4;
-      border-radius: 4px;
-    }
-    .dark ::-webkit-scrollbar-thumb {
-      background: #525252;
-    }
-    
-    /* Today marker pulse */
-    .today-pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    
-    /* Event bar hover */
-    .event-bar {
-      transition: all 0.15s ease;
-    }
-    .event-bar:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
-    
-    /* Month card hover */
-    .month-card {
-      transition: all 0.2s ease;
-    }
-    .month-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
-    }
-    
-    /* Line clamp */
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    
-    /* Smooth tab transitions */
-    .nav-tab {
-      transition: all 0.2s ease;
-    }
-    
-    /* Smooth content transitions */
-    #yearView, #monthView, #eventsListView {
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-  </style>
-</head>
-<body class="min-h-screen bg-surface-50 dark:bg-surface-950 text-stone-800 dark:text-stone-200 font-sans transition-colors duration-300">
-  
-  <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-xl bg-surface-50/80 dark:bg-surface-950/80 border-b border-stone-200/50 dark:border-stone-800/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <!-- Logo & Title -->
-        <a href="#" id="homeLink" class="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-fuchsia-600 flex items-center justify-center shadow-lg shadow-accent/25">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-          <div>
-            <h1 class="text-xl font-semibold tracking-tight">Фурри календарь</h1>
-            <p class="text-xs text-stone-500 dark:text-stone-400 font-mono">2026</p>
-          </div>
-        </a>
-        
-        <!-- Navigation & Controls -->
-        <div class="flex items-center gap-2">
-          <!-- Back to Year View -->
-          <button id="backBtn" class="hidden items-center gap-2 px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            <span>Год</span>
-          </button>
-          
-          <!-- Navigation Tabs -->
-          <nav class="flex items-center bg-stone-100 dark:bg-stone-800 rounded-lg p-1">
-            <button id="navCalendar" class="nav-tab flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all bg-white dark:bg-stone-700 text-stone-900 dark:text-white shadow-sm">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-              <span class="hidden sm:inline">Календарь</span>
-            </button>
-            <button id="navEvents" class="nav-tab flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-              </svg>
-              <span class="hidden sm:inline">Все события</span>
-            </button>
-          </nav>
-          
-          <!-- Filter Toggle -->
-          <button id="filterToggle" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-            </svg>
-            <span class="hidden sm:inline">Фильтры</span>
-            <span id="filterCount" class="hidden min-w-5 h-5 px-1.5 text-xs font-semibold bg-accent text-white rounded-full items-center justify-center"></span>
-          </button>
-          
-          <!-- Theme Toggle -->
-          <button id="themeToggle" class="p-2 text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all" aria-label="Переключить тему">
-            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-          </button>
-
-          <!-- Export Button -->
-          <button id="exportBtn" class="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-            </svg>
-            <span class="hidden sm:inline">Экспорт</span>
-          </button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Filter Panel -->
-    <div id="filterPanel" class="hidden border-t border-stone-200/50 dark:border-stone-800/50 bg-surface-100/50 dark:bg-surface-900/50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div class="flex flex-wrap items-center gap-2" id="categoryFilters">
-          <!-- Categories will be inserted here by JS -->
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Year View -->
-    <div id="yearView" class="animate-fade-in">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6" id="monthsGrid">
-        <!-- Months will be inserted here by JS -->
-      </div>
-      <div class="mt-6 text-center text-sm text-stone-500 dark:text-stone-400">
-        <p class="flex items-center justify-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>Некоторые даты могут меняться — проверяйте актуальную информацию у организаторов</span>
-        </p>
-      </div>
-    </div>
-    
-    <!-- Month View -->
-    <div id="monthView" class="hidden animate-slide-up">
-      <!-- Month navigation and grid will be inserted here by JS -->
-    </div>
-    
-    <!-- Events List View -->
-    <div id="eventsListView" class="hidden animate-fade-in">
-      <!-- Events list will be inserted here by JS -->
-    </div>
-
-    <!-- Uncertain Events Section -->
-    <div id="uncertainSection" class="hidden mt-8">
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold text-stone-800 dark:text-stone-200">Ещё не подтверждённые события</h2>
-      </div>
-      
-      <div class="bg-white dark:bg-surface-900 rounded-2xl shadow-sm overflow-hidden border-2 border-dashed border-amber-300 dark:border-amber-700">
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead>
-              <tr class="border-b border-stone-200 dark:border-stone-700">
-                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Название</th>
-                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Примерные даты</th>
-                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden sm:table-cell">Тип</th>
-                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300 hidden md:table-cell">Место</th>
-                <th class="text-left px-6 py-4 text-sm font-semibold text-stone-600 dark:text-stone-300">Ссылка</th>
-              </tr>
-            </thead>
-            <tbody id="uncertainEventsBody">
-              <!-- Uncertain events will be inserted here by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Event Modal -->
-  <div id="eventModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="modalBackdrop"></div>
-    
-    <!-- Modal Content -->
-    <div class="absolute inset-0 overflow-y-auto">
-      <div class="flex min-h-full items-center justify-center p-4">
-        <div id="modalContent" class="relative w-full max-w-lg bg-white dark:bg-surface-900 rounded-2xl shadow-2xl animate-scale-in">
-          <!-- Content will be inserted here by JS -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8 border-t border-stone-200 dark:border-stone-800">
-    <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-stone-500 dark:text-stone-400">
-      <span class="flex items-center gap-2">
-        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
-        <span>Обратная связь:</span>
-      </span>
-      <a href="https://t.me/Cosmopolited" target="_blank" rel="noopener noreferrer" class="text-accent hover:text-accent-dark transition-colors font-medium">
-        https://t.me/Cosmopolited
-      </a>
-    </div>
-  </footer>
-
-  <script>
-    // ============ State ============
-    let events = [];
-    let categories = [];
-    let tentativeEvents = [];
-    let activeFilters = new Set();
-    let currentView = 'year';
-    let currentMonth = null;
-    let filterPanelOpen = false;
-    
-    const MONTH_NAMES = [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ];
-    const MONTH_NAMES_GEN = [
-      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-    ];
-    const DAY_NAMES = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-    const YEAR = 2026;
-    
-    // ============ Utilities ============
-    function parseDate(dateStr) {
-      const [year, month, day] = dateStr.split('-').map(Number);
-      return new Date(year, month - 1, day);
-    }
-    
-    function formatDate(date) {
-      return `${date.getDate()} ${MONTH_NAMES_GEN[date.getMonth()]} ${date.getFullYear()}`;
-    }
-    
-    function formatDateShort(date) {
-      return `${date.getDate()} ${MONTH_NAMES_GEN[date.getMonth()].slice(0, 3)}`;
-    }
-    
-    function isSameDay(d1, d2) {
-      return d1.getFullYear() === d2.getFullYear() &&
-             d1.getMonth() === d2.getMonth() &&
-             d1.getDate() === d2.getDate();
-    }
-    
-    function isToday(date) {
-      const today = new Date();
-      return date.getFullYear() === today.getFullYear() &&
-             date.getMonth() === today.getMonth() &&
-             date.getDate() === today.getDate();
-    }
-    
-    function getDaysInMonth(year, month) {
-      return new Date(year, month + 1, 0).getDate();
-    }
-    
-    function getFirstDayOfMonth(year, month) {
-      const day = new Date(year, month, 1).getDay();
-      return day === 0 ? 6 : day - 1;
-    }
-    
-    // ============ НЕРАБОЧИЕ ДНИ (2026 ГОД) ============
-    function getAllNonWorkingDays(year) {
-      // Все выходные и праздничные дни 2026 года
-      const holidays = [
-        // Новогодние каникулы (1-8 января)
-        [year, 0, 1], [year, 0, 2], [year, 0, 3], [year, 0, 4],
-        [year, 0, 5], [year, 0, 6], [year, 0, 7], [year, 0, 8],
-        
-        // Переносы выходных дней в январе
-        [year, 0, 9], [year, 0, 10], // Перенос с 3-4 января
-        [year, 0, 30], [year, 0, 31], // Перенос с 9-10 января
-        
-        // Февраль
-        [year, 1, 23], // День защитника Отечества
-        [year, 1, 20], [year, 1, 21], [year, 1, 22], // Переносы с 23 февраля
-        
-        // Март
-        [year, 2, 8], // Международный женский день
-        [year, 2, 9], // Перенос с 8 марта
-        
-        // Май
-        [year, 4, 1], // Праздник Весны и Труда
-        [year, 4, 2], [year, 4, 3], // Переносы с 1 мая
-        [year, 4, 9], // День Победы
-        [year, 4, 10], // Перенос с 9 мая
-        [year, 4, 11], // Дополнительный выходной
-        
-        // Июнь
-        [year, 5, 12], // День России
-        [year, 5, 13], // Перенос с 12 июня
-        
-        // Ноябрь
-        [year, 10, 4], // День народного единства
-        
-        // Регулярные выходные (субботы и воскресенья) будут добавлены динамически
-      ];
-      
-      // Добавляем все субботы и воскресенья
-      const allNonWorkingDays = [...holidays];
-      
-      // Добавляем все субботы и воскресенья
-      for (let month = 0; month < 12; month++) {
-        const daysInMonth = getDaysInMonth(year, month);
-        for (let day = 1; day <= daysInMonth; day++) {
-          const date = new Date(year, month, day);
-          const dayOfWeek = date.getDay();
-          // 0 - воскресенье, 6 - суббота
-          if (dayOfWeek === 0 || dayOfWeek === 6) {
-            // Проверяем, не добавлен ли уже этот день как праздник
-            const alreadyAdded = holidays.some(([y, m, d]) => 
-              y === year && m === month && d === day
-            );
-            if (!alreadyAdded) {
-              allNonWorkingDays.push([year, month, day]);
-            }
-          }
-        }
-      }
-      
-      return allNonWorkingDays;
-    }
-    
-    function isNonWorkingDay(date) {
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
-      
-      const nonWorkingDays = getAllNonWorkingDays(year);
-      
-      return nonWorkingDays.some(([y, m, d]) => 
-        y === year && m === month && d === day
-      );
-    }
-    
-    function getNonWorkingDayName(date) {
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
-      
-      // Официальные праздники
-      const officialHolidays = [
-        [[year, 0, 1], "Новый год"],
-        [[year, 0, 2], "Новый год"],
-        [[year, 0, 3], "Новый год"],
-        [[year, 0, 4], "Новый год"],
-        [[year, 0, 5], "Новый год"],
-        [[year, 0, 6], "Новый год"],
-        [[year, 0, 7], "Рождество"],
-        [[year, 0, 8], "Новый год"],
-        [[year, 1, 23], "День защитника Отечества"],
-        [[year, 2, 8], "Международный женский день"],
-        [[year, 4, 1], "Праздник Весны и Труда"],
-        [[year, 4, 9], "День Победы"],
-        [[year, 5, 12], "День России"],
-        [[year, 10, 4], "День народного единства"],
-      ];
-      
-      // Проверяем официальные праздники
-      for (const [[y, m, d], name] of officialHolidays) {
-        if (y === year && m === month && d === day) {
-          return name;
-        }
-      }
-      
-      // Если не праздник, то просто выходной
-      const dayOfWeek = date.getDay();
-      if (dayOfWeek === 0) return "Воскресенье";
-      if (dayOfWeek === 6) return "Суббота";
-      
-      return "Выходной";
-    }
-    
-    function getEventsForDate(date) {
-      return events.filter(event => {
-        if (activeFilters.size > 0 && !activeFilters.has(event.category)) {
-          return false;
-        }
-        const start = parseDate(event.startDate);
-        const end = parseDate(event.endDate);
-        return date >= start && date <= end;
-      }).sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate));
-    }
-    
-    function getEventsForMonth(year, month) {
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
-      
-      return events.filter(event => {
-        if (activeFilters.size > 0 && !activeFilters.has(event.category)) {
-          return false;
-        }
-        const start = parseDate(event.startDate);
-        const end = parseDate(event.endDate);
-        return !(end < firstDay || start > lastDay);
-      });
-    }
-    
-    // ============ URL State ============
-    function updateURL() {
-      const params = new URLSearchParams();
-      if (activeFilters.size > 0) {
-        params.set('categories', Array.from(activeFilters).join(','));
-      }
-      if (currentView === 'list') {
-        params.set('view', 'list');
-      } else if (currentView === 'month' && currentMonth !== null) {
-        params.set('month', currentMonth + 1);
-      }
-      const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
-      history.replaceState(null, '', newURL);
-    }
-    
-    function loadFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const cats = params.get('categories');
-      if (cats) {
-        cats.split(',').forEach(c => activeFilters.add(c));
-      }
-      const view = params.get('view');
-      if (view === 'list') {
-        currentView = 'list';
-      } else {
-        const month = params.get('month');
-        if (month) {
-          const m = parseInt(month) - 1;
-          if (m >= 0 && m < 12) {
-            currentMonth = m;
-            currentView = 'month';
-          }
-        }
-      }
-    }
-    
-    // ============ Theme ============
-    function initTheme() {
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-    
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    }
-    
-    // ============ Filters ============
-    function toggleFilterPanel() {
-      filterPanelOpen = !filterPanelOpen;
-      document.getElementById('filterPanel').classList.toggle('hidden', !filterPanelOpen);
-    }
-    
-    function updateFilterCount() {
-      const countEl = document.getElementById('filterCount');
-      if (activeFilters.size > 0) {
-        countEl.textContent = activeFilters.size;
-        countEl.classList.remove('hidden');
-        countEl.classList.add('flex');
-      } else {
-        countEl.classList.add('hidden');
-        countEl.classList.remove('flex');
-      }
-    }
-    
-    function renderCategoryFilters() {
-      const container = document.getElementById('categoryFilters');
-      
-      // Add reset button if filters are active
-      const resetBtn = activeFilters.size > 0 ? `
-        <button id="resetFilters" class="px-3 py-2 rounded-lg text-sm font-medium bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all">
-          Сбросить все (${activeFilters.size})
-        </button>
-      ` : '';
-      
-      container.innerHTML = resetBtn + categories.map(cat => `
-        <button 
-          data-category="${cat.id}"
-          class="category-filter flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all
-                 ${activeFilters.has(cat.id) 
-                     ? 'ring-2 ring-offset-2 ring-offset-white dark:ring-offset-surface-900 bg-white dark:bg-surface-800 shadow-sm' 
-                     : 'bg-white/50 dark:bg-surface-800/50 hover:bg-white dark:hover:bg-surface-800'}"
-          style="${activeFilters.has(cat.id) ? `ring-color: ${cat.color}` : ''}"
-        >
-          <span class="w-3 h-3 rounded-full" style="background-color: ${cat.color}"></span>
-          ${cat.name}
-        </button>
-      `).join('');
-      
-      container.querySelectorAll('.category-filter').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const cat = btn.dataset.category;
-          if (activeFilters.has(cat)) {
-            activeFilters.delete(cat);
-          } else {
-            activeFilters.add(cat);
-          }
-          updateURL();
-          updateFilterCount();
-          renderCategoryFilters();
-          renderCurrentView();
-        });
-      });
-      
-      // Add reset handler
-      const resetBtnEl = document.getElementById('resetFilters');
-      if (resetBtnEl) {
-        resetBtnEl.addEventListener('click', () => {
-          activeFilters.clear();
-          updateURL();
-          updateFilterCount();
-          renderCategoryFilters();
-          renderCurrentView();
-        });
-      }
-    }
-    
-    // ============ Rendering ============
-    function renderMiniMonth(year, month) {
-      const daysInMonth = getDaysInMonth(year, month);
-      const firstDay = getFirstDayOfMonth(year, month);
-      const monthEvents = getEventsForMonth(year, month);
-      
-      let html = `
-        <div class="month-card bg-white dark:bg-surface-900 rounded-2xl p-4 shadow-sm border border-stone-200/50 dark:border-stone-800/50 cursor-pointer" data-month="${month}">
-          <h3 class="font-semibold text-lg mb-3 text-center">${MONTH_NAMES[month]}</h3>
-          <div class="grid grid-cols-7 gap-1 text-xs mb-3">
-      `;
-      
-      // Day headers
-      DAY_NAMES.forEach(day => {
-        html += `<div class="text-center text-stone-400 dark:text-stone-500 font-medium py-1">${day}</div>`;
-      });
-      
-      // Empty cells
-      for (let i = 0; i < firstDay; i++) {
-        html += `<div></div>`;
-      }
-      
-      // Days
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const dayEvents = getEventsForDate(date);
-        const isCurrentDay = isToday(date);
-        const isNonWorking = isNonWorkingDay(date);
-        
-        // Get unique colors for this day (max 3)
-        const eventColors = [...new Set(dayEvents.map(e => e.color))].slice(0, 3);
-        
-        let dayClass = 'text-xs';
-        if (isCurrentDay) {
-          dayClass += ' font-bold text-accent';
-        } else if (isNonWorking) {
-          dayClass += ' text-red-500 dark:text-red-400';
-        }
-        
-        html += `
-          <div class="relative aspect-square flex items-center justify-center rounded-lg overflow-hidden
-                      ${isCurrentDay ? 'ring-2 ring-accent ring-offset-1' : ''}">
-            <span class="${dayClass}">${day}</span>
-            ${eventColors.length > 0 ? `
-              <div class="absolute bottom-0 left-0 right-0 h-2 flex gap-0.5 px-0.5 pb-0.5">
-                ${eventColors.map(color => `
-                  <div class="flex-1 rounded-full" style="background-color: ${color}"></div>
-                `).join('')}
-              </div>
-            ` : ''}
-            ${isCurrentDay && eventColors.length === 0 ? `<div class="absolute inset-0 bg-accent/20 dark:bg-accent/30 today-pulse rounded-lg"></div>` : ''}
-          </div>
-        `;
-      }
-      
-      html += `</div>`;
-      
-      // Event summary - ТЕПЕРЬ В 2 КОЛОНКИ!
-      if (monthEvents.length > 0) {
-        // Разделяем события на две колонки
-        const midPoint = Math.ceil(monthEvents.length / 2);
-        const firstColumn = monthEvents.slice(0, midPoint);
-        const secondColumn = monthEvents.slice(midPoint);
-        
-        html += `
-          <div class="pt-3 border-t border-stone-100 dark:border-stone-800">
-            <div class="grid grid-cols-2 gap-2">
-              <!-- Первая колонка -->
-              <div class="space-y-1.5">
-                ${firstColumn.slice(0, 3).map(e => `
-                  <div class="flex items-center gap-2 text-xs">
-                    <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color: ${e.color}"></span>
-                    <span class="truncate text-stone-600 dark:text-stone-400">${e.title}</span>
-                  </div>
-                `).join('')}
-                ${firstColumn.length > 3 ? `<div class="text-xs text-stone-400 pl-3.5">+${firstColumn.length - 3} ещё</div>` : ''}
-              </div>
-              
-              <!-- Вторая колонка -->
-              <div class="space-y-1.5">
-                ${secondColumn.slice(0, 3).map(e => `
-                  <div class="flex items-center gap-2 text-xs">
-                    <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color: ${e.color}"></span>
-                    <span class="truncate text-stone-600 dark:text-stone-400">${e.title}</span>
-                  </div>
-                `).join('')}
-                ${secondColumn.length > 3 ? `<div class="text-xs text-stone-400 pl-3.5">+${secondColumn.length - 3} ещё</div>` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }
-      
-      html += `</div>`;
-      return html;
-    }
-    
-    function renderYearView() {
-      const container = document.getElementById('monthsGrid');
-      container.innerHTML = '';
-      
-      for (let month = 0; month < 12; month++) {
-        container.innerHTML += renderMiniMonth(YEAR, month);
-      }
-      
-      container.querySelectorAll('.month-card').forEach(card => {
-        card.addEventListener('click', () => {
-          const month = parseInt(card.dataset.month);
-          showMonthView(month);
-        });
-      });
-      
-      document.getElementById('yearView').classList.remove('hidden');
-      document.getElementById('monthView').classList.add('hidden');
-      document.getElementById('eventsListView').classList.add('hidden');
-      document.getElementById('backBtn').classList.add('hidden');
-      document.getElementById('backBtn').classList.remove('flex');
-      
-      currentView = 'year';
-      currentMonth = null;
-      renderUncertainEvents();
-      updateURL();
-    }
-    
-    function renderMonthView(month) {
-      const container = document.getElementById('monthView');
-      const daysInMonth = getDaysInMonth(YEAR, month);
-      const firstDay = getFirstDayOfMonth(YEAR, month);
-      const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
-      const monthEvents = getEventsForMonth(YEAR, month);
-      
-      let html = `
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">${MONTH_NAMES[month]} ${YEAR}</h2>
-          <div class="flex items-center gap-2">
-            <button onclick="showToday()" class="px-3 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all">
-              Сегодня
-            </button>
-            <button onclick="navigateMonth(-1)" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all ${month === 0 ? 'invisible' : ''}">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-              </svg>
-            </button>
-            <button onclick="navigateMonth(1)" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all ${month === 11 ? 'invisible' : ''}">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Weekday Headers -->
-        <div class="grid grid-cols-7 mb-2">
-          ${DAY_NAMES.map(day => `
-            <div class="text-center text-xs font-medium text-stone-500 dark:text-stone-400 py-2">${day}</div>
-          `).join('')}
-        </div>
-        
-        <!-- Calendar Grid -->
-        <div class="grid grid-cols-7 gap-px bg-stone-200 dark:bg-stone-700 rounded-xl overflow-hidden shadow-sm">
-      `;
-      
-      for (let i = 0; i < totalCells; i++) {
-        const day = i - firstDay + 1;
-        const isValidDay = day > 0 && day <= daysInMonth;
-        const date = isValidDay ? new Date(YEAR, month, day) : null;
-        const isCurrentDay = date && isToday(date);
-        const dayEvents = isValidDay ? getEventsForDate(date) : [];
-        const isNonWorking = date && isNonWorkingDay(date);
-        const nonWorkingName = isNonWorking ? getNonWorkingDayName(date) : '';
-        
-        let daySpanClass = 'w-7 h-7 flex items-center justify-center text-sm font-medium rounded-lg';
-        if (isCurrentDay) {
-          daySpanClass += ' bg-accent/20 dark:bg-accent/30 text-accent font-bold today-pulse';
-        } else if (isNonWorking) {
-          daySpanClass += ' text-red-500 dark:text-red-400';
-        } else {
-          daySpanClass += ' text-stone-700 dark:text-stone-300';
-        }
-        
-        // Определяем фон для нерабочих дней
-        let dayBgClass = 'bg-white dark:bg-surface-900';
-        if (isNonWorking) {
-          dayBgClass = 'bg-red-50/50 dark:bg-red-900/10';
-        }
-        if (!isValidDay) {
-          dayBgClass = 'bg-stone-50 dark:bg-surface-950';
-        }
-        
-        // Определяем, является ли день выходным (суббота/воскресенье)
-        const isWeekend = i % 7 === 5 || i % 7 === 6;
-        
-        html += `
-          <div class="min-h-[100px] sm:min-h-[120px] ${dayBgClass} ${isWeekend && isValidDay ? 'bg-stone-50/50 dark:bg-surface-950/50' : ''} relative">
-            ${isValidDay ? `
-              <div class="p-1 sm:p-2 h-full flex flex-col">
-                <div class="flex items-center justify-center mb-1">
-                  <span class="${daySpanClass}">
-                    ${day}
-                  </span>
-                </div>
-                ${isNonWorking ? `
-                  <div class="absolute top-0 right-0 text-[8px] sm:text-[9px] px-1 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 rounded-bl-lg">
-                    ${nonWorkingName}
-                  </div>
-                ` : ''}
-                <div class="flex-1 space-y-0.5 overflow-hidden mt-1">
-                  ${dayEvents.slice(0, 3).map(e => `
-                    <div class="event-bar text-xs px-1.5 py-0.5 rounded truncate cursor-pointer text-white font-medium"
-                         style="background-color: ${e.color}"
-                         data-event-id="${e.id}">
-                      ${e.title}
-                    </div>
-                  `).join('')}
-                  ${dayEvents.length > 3 ? `<div class="text-xs text-stone-400 px-1">+${dayEvents.length - 3}</div>` : ''}
-                </div>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }
-      
-      html += `</div>`;
-      
-      // Легенда для нерабочих дней
-      html += `
-        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-stone-500 dark:text-stone-400">
-          <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded-sm bg-red-100 dark:bg-red-900/30"></span>
-            <span>Выходные и праздники</span>
-          </span>
-          <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded-sm bg-stone-100 dark:bg-stone-800"></span>
-            <span>Рабочие дни</span>
-          </span>
-        </div>
-        
-        <!-- Уточнение про возможные изменения дат -->
-        <div class="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-            </svg>
-            <div>
-              <p class="text-sm text-amber-800 dark:text-amber-200 font-medium">Некоторые даты могут меняться</p>
-              <p class="text-xs text-amber-600 dark:text-amber-400 mt-1">Даты событий могут быть скорректированы организаторами. Рекомендуем проверять актуальную информацию на официальных источниках перед планированием поездки.</p>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      // Events list for month - ТЕПЕРЬ В 2 КОЛОНКИ НА БОЛЬШИХ ЭКРАНАХ!
-      if (monthEvents.length > 0) {
-        // Разделяем события на две колонки для больших экранов
-        const midPoint = Math.ceil(monthEvents.length / 2);
-        const firstColumn = monthEvents.slice(0, midPoint);
-        const secondColumn = monthEvents.slice(midPoint);
-        
-        html += `
-          <div class="mt-6">
-            <h3 class="text-lg font-semibold mb-4">События в ${MONTH_NAMES[month].toLowerCase()}</h3>
-            <div class="lg:grid lg:grid-cols-2 lg:gap-6">
-              <!-- Первая колонка -->
-              <div class="space-y-3">
-                ${firstColumn.map(e => {
-                  const startDate = parseDate(e.startDate);
-                  const endDate = parseDate(e.endDate);
-                  const isSingleDay = e.startDate === e.endDate;
-                  return `
-                    <div class="bg-white dark:bg-surface-900 rounded-xl p-4 shadow-sm border border-stone-200/50 dark:border-stone-800/50 cursor-pointer hover:shadow-md transition-shadow event-card" data-event-id="${e.id}">
-                      <div class="flex items-start gap-3">
-                        <div class="w-1 h-12 rounded-full flex-shrink-0" style="background-color: ${e.color}"></div>
-                        <div class="flex-1 min-w-0">
-                          <h4 class="font-semibold text-stone-900 dark:text-white">${e.title}</h4>
-                          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">
-                            ${formatDate(startDate)}${!isSingleDay ? ` — ${formatDate(endDate)}` : ''}
-                          </p>
-                          ${e.location ? `<p class="text-sm text-stone-500 dark:text-stone-400">${e.location}</p>` : ''}
-                        </div>
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>
-              
-              <!-- Вторая колонка (только на больших экранах) -->
-              <div class="space-y-3 mt-3 lg:mt-0">
-                ${secondColumn.map(e => {
-                  const startDate = parseDate(e.startDate);
-                  const endDate = parseDate(e.endDate);
-                  const isSingleDay = e.startDate === e.endDate;
-                  return `
-                    <div class="bg-white dark:bg-surface-900 rounded-xl p-4 shadow-sm border border-stone-200/50 dark:border-stone-800/50 cursor-pointer hover:shadow-md transition-shadow event-card" data-event-id="${e.id}">
-                      <div class="flex items-start gap-3">
-                        <div class="w-1 h-12 rounded-full flex-shrink-0" style="background-color: ${e.color}"></div>
-                        <div class="flex-1 min-w-0">
-                          <h4 class="font-semibold text-stone-900 dark:text-white">${e.title}</h4>
-                          <p class="text-sm text-stone-500 dark:text-stone-400 mt-1">
-                            ${formatDate(startDate)}${!isSingleDay ? ` — ${formatDate(endDate)}` : ''}
-                          </p>
-                          ${e.location ? `<p class="text-sm text-stone-500 dark:text-stone-400">${e.location}</p>` : ''}
-                        </div>
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>
-            </div>
-          </div>
-        `;
-      }
-      
-      container.innerHTML = html;
-      
-      // Add event click handlers
-      container.querySelectorAll('[data-event-id]').forEach(el => {
-        el.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const eventId = el.dataset.eventId;
-          const event = events.find(ev => ev.id === eventId);
-          if (event) showEventModal(event);
-        });
-      });
-      
-      document.getElementById('yearView').classList.add('hidden');
-      document.getElementById('monthView').classList.remove('hidden');
-      document.getElementById('eventsListView').classList.add('hidden');
-      document.getElementById('backBtn').classList.remove('hidden');
-      document.getElementById('backBtn').classList.add('flex');
-      
-      renderUncertainEvents();
-    }
-    
-    function showMonthView(month) {
-      currentMonth = month;
-      currentView = 'month';
-      renderMonthView(month);
-      updateURL();
-    }
-    
-    function navigateMonth(delta) {
-      const newMonth = currentMonth + delta;
-      if (newMonth >= 0 && newMonth < 12) {
-        currentMonth = newMonth;
-        renderMonthView(currentMonth);
-        updateURL();
-      }
-    }
-    
-    function showToday() {
-      const today = new Date();
-      if (today.getFullYear() === YEAR) {
-        currentMonth = today.getMonth();
-        currentView = 'month';
-        renderMonthView(currentMonth);
-        updateURL();
-      }
-    }
-    
+<script>
     // ============ Events List View ============
     function renderEventsListView() {
       const container = document.getElementById('eventsListView');
@@ -1031,7 +47,7 @@
           <tr>
             <td colspan="5" class="px-6 py-12 text-center">
               <svg class="w-16 h-16 mx-auto text-stone-300 dark:text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v12a2 2 0 002 2z"></path>
               </svg>
               <p class="mt-4 text-stone-500 dark:text-stone-400">Нет событий для отображения</p>
             </td>
@@ -1047,8 +63,15 @@
             ? formatDate(startDate) 
             : `${startDate.getDate()} ${MONTH_NAMES_GEN[startDate.getMonth()]} — ${endDate.getDate()} ${MONTH_NAMES_GEN[endDate.getMonth()]}`;
           
+          // Подготовка текста для тултипа (максимум 200 символов)
+          const tooltipText = e.description && e.description.trim() !== '' 
+            ? (e.description.length > 200 ? e.description.substring(0, 200) + '...' : e.description)
+            : 'Нет описания';
+          
           html += `
-            <tr class="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer event-row" data-event-id="${e.id}">
+            <tr class="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer event-row relative group"
+                data-event-id="${e.id}"
+                title="${tooltipText.replace(/"/g, '&quot;')}">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
                   <div class="w-1 h-8 rounded-full" style="background-color: ${e.color}"></div>
@@ -1074,6 +97,34 @@
                   </a>
                 ` : '<span class="text-stone-400 dark:text-stone-500">—</span>'}
               </td>
+              
+              <!-- Улучшенный тултип при наведении -->
+              <div class="event-tooltip absolute z-10 hidden group-hover:block bg-white dark:bg-surface-800 p-4 rounded-lg shadow-2xl border border-stone-200 dark:border-stone-700 max-w-xs pointer-events-none"
+                   style="left: 50%; transform: translateX(-50%); top: calc(100% + 10px);">
+                <div class="relative">
+                  <!-- Стрелочка тултипа -->
+                  <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-surface-800 border-t border-l border-stone-200 dark:border-stone-700 rotate-45"></div>
+                  
+                  <div class="relative z-20">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="w-2 h-2 rounded-full" style="background-color: ${e.color}"></div>
+                      <span class="text-xs font-medium text-stone-500 dark:text-stone-400">${category ? category.name : e.category}</span>
+                    </div>
+                    <h4 class="font-semibold text-stone-900 dark:text-white mb-2">${e.title}</h4>
+                    ${e.description && e.description.trim() !== '' ? `
+                      <p class="text-sm text-stone-600 dark:text-stone-300 line-clamp-3">${e.description}</p>
+                    ` : '<p class="text-sm text-stone-400 dark:text-stone-500 italic">Нет описания</p>'}
+                    ${e.location && e.location.trim() !== '' ? `
+                      <div class="flex items-center gap-1 mt-2 text-xs text-stone-500 dark:text-stone-400">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        </svg>
+                        <span>${e.location}</span>
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              </div>
             </tr>
           `;
         });
@@ -1084,415 +135,114 @@
             </table>
           </div>
         </div>
+        
+        <!-- Подсказка по взаимодействию -->
+        <div class="mt-4 text-center text-sm text-stone-500 dark:text-stone-400">
+          <p class="flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Наведите на событие для предпросмотра или кликните для подробной информации</span>
+          </p>
+        </div>
       `;
       
       container.innerHTML = html;
       
+      // Add event click handlers for modal
       container.querySelectorAll('.event-row').forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          // Не открываем модальное окно, если клик был на ссылке
+          if (e.target.closest('a')) return;
+          
           const eventId = el.dataset.eventId;
-          const event = events.find(e => e.id === eventId);
+          const event = events.find(ev => ev.id === eventId);
           if (event) showEventModal(event);
         });
       });
-    }
-    
-    function showEventsListView() {
-      currentView = 'list';
-      document.getElementById('yearView').classList.add('hidden');
-      document.getElementById('monthView').classList.add('hidden');
-      document.getElementById('eventsListView').classList.remove('hidden');
-      document.getElementById('backBtn').classList.add('hidden');
-      document.getElementById('backBtn').classList.remove('flex');
       
-      // Update nav tabs
-      document.getElementById('navCalendar').classList.remove('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
-      document.getElementById('navCalendar').classList.add('text-stone-600', 'dark:text-stone-400');
-      document.getElementById('navEvents').classList.add('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
-      document.getElementById('navEvents').classList.remove('text-stone-600', 'dark:text-stone-400');
-      
-      renderEventsListView();
-      renderUncertainEvents();
-      updateURL();
-    }
-    
-    function showCalendarView() {
-      document.getElementById('eventsListView').classList.add('hidden');
-      
-      // Update nav tabs
-      document.getElementById('navEvents').classList.remove('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
-      document.getElementById('navEvents').classList.add('text-stone-600', 'dark:text-stone-400');
-      document.getElementById('navCalendar').classList.add('bg-white', 'dark:bg-stone-700', 'text-stone-900', 'dark:text-white', 'shadow-sm');
-      document.getElementById('navCalendar').classList.remove('text-stone-600', 'dark:text-stone-400');
-      
-      if (currentMonth !== null && currentView === 'month') {
-        renderMonthView(currentMonth);
-      } else {
-        renderYearView();
-      }
-    }
-    
-    // ============ Uncertain Events ============
-    function renderUncertainEvents() {
-      const section = document.getElementById('uncertainSection');
-      const tbody = document.getElementById('uncertainEventsBody');
-      
-      if (!tentativeEvents || tentativeEvents.length === 0) {
-        section.classList.add('hidden');
-        return;
-      }
-      
-      // Фильтруем события, которые нужно скрыть
-      const eventsToHide = [
-        'tent-winter-con-2026',     // Зимний кон
-        'tent-new-outdoor-2026',    // Новый кон на природе
-        'tent-fall-camping-2026'    // Осенний кемпинг
-      ];
-      
-      const filteredEvents = tentativeEvents.filter(event => !eventsToHide.includes(event.id));
-      
-      if (filteredEvents.length === 0) {
-        section.classList.add('hidden');
-        return;
-      }
-      
-      section.classList.remove('hidden');
-      
-      tbody.innerHTML = filteredEvents.map(event => {
-        const category = categories.find(c => c.id === event.category);
-        const categoryName = category ? category.name : event.category;
-        const categoryColor = category ? category.color : '#6b7280';
+      // Управление тултипами
+      const rows = container.querySelectorAll('.event-row');
+      rows.forEach(row => {
+        const tooltip = row.querySelector('.event-tooltip');
         
-        // Особый случай для Кайфура
-        let estimatedDate = event.estimatedDate;
-        let location = event.location || '—';
+        // Показываем/скрываем тултип при наведении
+        row.addEventListener('mouseenter', () => {
+          tooltip.classList.remove('hidden');
+        });
         
-        if (event.id === 'tent-kaifur-2026') {
-          estimatedDate = 'Всегда';
-          location = 'Везде';
-        }
+        row.addEventListener('mouseleave', () => {
+          tooltip.classList.add('hidden');
+        });
         
-        return `
-        <tr class="border-b border-stone-100 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors">
-          <td class="px-6 py-4">
-            <div class="flex items-center gap-3">
-              <div class="w-1 h-8 rounded-full bg-amber-500"></div>
-              <span class="font-medium text-stone-900 dark:text-white">${event.title}</span>
-            </div>
-          </td>
-          <td class="px-6 py-4 text-stone-600 dark:text-stone-300">${estimatedDate}</td>
-          <td class="px-6 py-4 text-stone-500 dark:text-stone-400 hidden sm:table-cell">
-            <span class="px-2 py-1 rounded-full text-xs font-medium" style="background-color: ${categoryColor}20; color: ${categoryColor}">
-              ${categoryName}
-            </span>
-          </td>
-          <td class="px-6 py-4 text-stone-500 dark:text-stone-400 hidden md:table-cell">${location}</td>
-          <td class="px-6 py-4">
-            ${event.url && event.url.trim() !== '' ? `
-              <a href="${event.url}" target="_blank" rel="noopener noreferrer" 
-                 class="inline-flex items-center gap-1 text-accent hover:text-accent-dark transition-colors text-sm">
-                <span>Открыть</span>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                </svg>
-              </a>
-            ` : '<span class="text-stone-400 dark:text-stone-500">—</span>'}
-          </td>
-        </tr>
-      `;
-      }).join('');
-    }
-    
-    // ============ Modal ============
-    function showEventModal(event) {
-      const modal = document.getElementById('eventModal');
-      const content = document.getElementById('modalContent');
-      
-      const startDate = parseDate(event.startDate);
-      const endDate = parseDate(event.endDate);
-      const isSingleDay = event.startDate === event.endDate;
-      const category = categories.find(c => c.id === event.category);
-      
-      content.innerHTML = `
-        <!-- Modal Header -->
-        <div class="flex items-start justify-between p-6 pb-4">
-          <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full" style="background-color: ${event.color}"></div>
-            <span class="text-sm font-medium text-stone-500 dark:text-stone-400">${category ? category.name : event.category}</span>
-          </div>
-          <button onclick="closeEventModal()" class="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors close-modal-btn">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Modal Body -->
-        <div class="px-6 pb-6">
-          <h3 class="text-2xl font-bold tracking-tight mb-4">${event.title}</h3>
+        // Позиционирование тултипа
+        row.addEventListener('mousemove', (e) => {
+          const rect = row.getBoundingClientRect();
+          const tooltipRect = tooltip.getBoundingClientRect();
+          const viewportWidth = window.innerWidth;
           
-          <div class="space-y-3 mb-6">
-            <div class="flex items-center gap-3 text-stone-600 dark:text-stone-300">
-              <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-              <span class="text-sm">${formatDate(startDate)}${!isSingleDay ? ` — ${formatDate(endDate)}` : ''}</span>
-            </div>
-            
-            ${event.location && event.location.trim() !== '' ? `
-              <div class="flex items-center gap-3 text-stone-600 dark:text-stone-300">
-                <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-                <span class="text-sm">${event.location}</span>
-              </div>
-            ` : ''}
-          </div>
+          // Автоматическое позиционирование слева/справа если тултип выходит за экран
+          let left = e.clientX - rect.left;
           
-          ${event.description && event.description.trim() !== '' ? `
-            <p class="text-stone-600 dark:text-stone-300 leading-relaxed mb-6">${event.description}</p>
-          ` : ''}
-          
-          ${event.url && event.url.trim() !== '' ? `
-            <a href="${event.url}" target="_blank" rel="noopener noreferrer" 
-               class="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-dark text-white font-medium rounded-xl transition-colors shadow-lg shadow-accent/25">
-              <span>Подробнее</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-              </svg>
-            </a>
-          ` : ''}
-        </div>
-      `;
-      
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      
-      // Добавляем обработчик для кнопки закрытия
-      const closeBtn = content.querySelector('.close-modal-btn');
-      if (closeBtn) {
-        closeBtn.onclick = closeEventModal;
-      }
-    }
-    
-    function closeEventModal() {
-      document.getElementById('eventModal').classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-    
-    // ============ Export Function ============
-    function generateICS() {
-      let ics = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Furry Calendar//RU\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n';
-      
-      events.forEach(event => {
-        ics += 'BEGIN:VEVENT\n';
-        ics += `UID:${event.id}@furry-calendar.ru\n`;
-        ics += `SUMMARY:${event.title}\n`;
-        
-        // Dates
-        const startStr = event.startDate.replace(/-/g, '');
-        const endStr = event.endDate.replace(/-/g, '');
-        ics += `DTSTART;VALUE=DATE:${startStr}\n`;
-        ics += `DTEND;VALUE=DATE:${parseInt(endStr) + 1}\n`; // Add 1 day for exclusive end date
-        
-        if (event.description) {
-          ics += `DESCRIPTION:${event.description.replace(/\n/g, '\\n')}\n`;
-        }
-        
-        if (event.location && event.location.trim() !== '') {
-          ics += `LOCATION:${event.location}\n`;
-        }
-        
-        if (event.url && event.url.trim() !== '') {
-          ics += `URL:${event.url}\n`;
-        }
-        
-        ics += `CATEGORIES:${event.category}\n`;
-        ics += `COLOR:${event.color}\n`;
-        ics += 'END:VEVENT\n';
-      });
-      
-      ics += 'END:VCALENDAR';
-      
-      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'furry-events-2026.ics';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-    
-    function renderCurrentView() {
-      if (currentView === 'list') {
-        renderEventsListView();
-      } else if (currentView === 'month' && currentMonth !== null) {
-        renderMonthView(currentMonth);
-      } else {
-        renderYearView();
-      }
-      renderUncertainEvents();
-    }
-    
-    // ============ Initialization ============
-    async function init() {
-      initTheme();
-      
-      try {
-        // Умная загрузка events.json для GitHub Pages и локального использования
-        const currentPath = window.location.pathname;
-        let jsonPath = 'events.json';
-        
-        // Если мы на GitHub Pages в подпапке репозитория
-        if (currentPath.includes('.github.io')) {
-          // Определяем путь к репозиторию
-          const pathParts = currentPath.split('/');
-          if (pathParts.length > 2) {
-            // Пример: /username/reponame/ -> берем reponame
-            const repoName = pathParts[1];
-            jsonPath = '/' + repoName + '/events.json';
-          }
-        }
-        
-        console.log('Загружаем события из:', jsonPath);
-        const response = await fetch(jsonPath);
-        
-        if (!response.ok) {
-          // Пробуем альтернативный путь
-          const altResponse = await fetch('./events.json');
-          if (!altResponse.ok) {
-            throw new Error('Не удалось загрузить события');
-          }
-          const data = await altResponse.json();
-          
-          if (!data.events || !Array.isArray(data.events)) {
-            throw new Error('Неверный формат данных событий');
+          // Проверяем, не выходит ли тултип за правый край
+          if (left + tooltipRect.width > viewportWidth - 20) {
+            left = viewportWidth - tooltipRect.width - 20 - rect.left;
           }
           
-          events = data.events || [];
-          categories = data.categories || [];
-          tentativeEvents = data.tentativeEvents || [];
-        } else {
-          const data = await response.json();
-          
-          if (!data.events || !Array.isArray(data.events)) {
-            throw new Error('Неверный формат данных событий');
+          // Проверяем, не выходит ли тултип за левый край
+          if (left < 20) {
+            left = 20;
           }
           
-          events = data.events || [];
-          categories = data.categories || [];
-          tentativeEvents = data.tentativeEvents || [];
-        }
-        
-        console.log(`Загружено ${events.length} событий, ${categories.length} категорий`);
-        
-      } catch (error) {
-        console.error('Ошибка загрузки событий:', error);
-        
-        // Показать дружественное сообщение об ошибке
-        const yearView = document.getElementById('yearView');
-        yearView.innerHTML = `
-          <div class="max-w-md mx-auto text-center py-12">
-            <svg class="w-20 h-20 mx-auto text-amber-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <h3 class="text-xl font-semibold text-stone-700 dark:text-stone-300 mb-2">Не удалось загрузить события</h3>
-            <p class="text-stone-500 dark:text-stone-400 mb-4">Проверьте наличие файла events.json в той же папке</p>
-            <div class="mt-6 space-y-3">
-              <button onclick="location.reload()" class="px-4 py-2 bg-accent hover:bg-accent-dark text-white rounded-lg transition-colors">
-                Попробовать снова
-              </button>
-              <div class="text-xs text-stone-400 mt-4">
-                <p>Убедитесь, что в папке есть файлы:</p>
-                <p class="font-mono">• index.html</p>
-                <p class="font-mono">• events.json</p>
-              </div>
-            </div>
-          </div>
-        `;
-        
-        events = [];
-        categories = [];
-        tentativeEvents = [];
-        return;
-      }
-      
-      // Автопоказ текущего месяца, если это 2026 год
-      const today = new Date();
-      if (today.getFullYear() === YEAR) {
-        // Только если не задано другое представление через URL
-        const params = new URLSearchParams(window.location.search);
-        if (!params.get('view') && !params.get('month')) {
-          currentMonth = today.getMonth();
-          currentView = 'month';
-        }
-      }
-      
-      loadFromURL();
-      updateFilterCount();
-      renderCategoryFilters();
-      
-      if (currentView === 'list') {
-        showEventsListView();
-      } else if (currentView === 'month' && currentMonth !== null) {
-        renderMonthView(currentMonth);
-        document.getElementById('backBtn').classList.remove('hidden');
-        document.getElementById('backBtn').classList.add('flex');
-        renderUncertainEvents();
-      } else {
-        renderYearView();
-        renderUncertainEvents();
-      }
-      
-      // Event listeners
-      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-      document.getElementById('filterToggle').addEventListener('click', toggleFilterPanel);
-      document.getElementById('backBtn').addEventListener('click', () => renderYearView());
-      document.getElementById('homeLink').addEventListener('click', (e) => {
-        e.preventDefault();
-        renderYearView();
+          tooltip.style.left = `${left}px`;
+          tooltip.style.transform = 'none';
+        });
       });
-      
-      document.getElementById('navCalendar').addEventListener('click', () => {
-        if (currentView === 'list') {
-          currentView = 'year';
-          currentMonth = null;
-        }
-        showCalendarView();
-      });
-      
-      document.getElementById('navEvents').addEventListener('click', () => showEventsListView());
-      
-      // Обработчики для модального окна
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeEventModal();
-      });
-      
-      // Самый простой и надежный способ - обрабатываем клик на всем документе
-      document.addEventListener('click', function(e) {
-        const modal = document.getElementById('eventModal');
-        const modalContent = document.getElementById('modalContent');
-        
-        // Если модальное окно открыто И клик был НЕ на содержимом модального окна
-        if (!modal.classList.contains('hidden') && 
-            !modalContent.contains(e.target)) {
-          closeEventModal();
-        }
-      });
-      
-      // Export button
-      document.getElementById('exportBtn').addEventListener('click', generateICS);
     }
-    
-    window.navigateMonth = navigateMonth;
-    window.closeEventModal = closeEventModal;
-    window.showToday = showToday;
-    window.generateICS = generateICS;
-    
-    init();
-  </script>
-</body>
-</html>
+</script>
+
+<style>
+  /* Стили для тултипов в таблице */
+  .event-tooltip {
+    animation: fadeInTooltip 0.2s ease-out;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .event-tooltip {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes fadeInTooltip {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Ограничение текста в 3 строки */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Курсор-указатель для строк таблицы */
+  .event-row {
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .event-row:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  
+  .dark .event-row:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+</style>
