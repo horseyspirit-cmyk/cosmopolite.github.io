@@ -4,7 +4,7 @@
 
 ## 🌐 Демо
 (https://horseyspirit-cmyk.github.io/cosmopolite.github.io/)
-
+(https://horseyspirit-cmyk.github.io/cosmopolite.github.io/editor.html)
 ## ✨ Функции
 - 📅 Просмотр событий по месяцам и годам
 - 🔍 Фильтрация по категориям (конвенты, кемпинги, маркеты)
