@@ -252,6 +252,17 @@
       "location": "Тверь",
       "description": "Крупный фурри-лекторий с разнообразными активностями в Твери.\n\nЦена билета: от 0р до 3500р",
       "url": "https://t.me/ConcordiaTver"
+    },
+    {
+      "id": "akimarufest",
+      "title": "Акамару Фест",
+      "startDate": "2026-04-05",
+      "endDate": "2026-04-05",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Восточная улица, 4к1, Москва",
+      "description": "Московский косплей фестиваль, мультифэндом. \nЦена билета ~ 1200р - 6000р\nВозраст 12+",
+      "url": "https://t.me/master_albin"
     }
   ],
   "categories": [
