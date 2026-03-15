@@ -263,6 +263,17 @@
       "location": "Восточная улица, 4к1, Москва",
       "description": "Московский косплей фестиваль, мультифэндом. \nЦена билета ~ 1200р - 6000р\nВозраст 12+",
       "url": "https://t.me/master_albin"
+    },
+    {
+      "id": "marketzverey",
+      "title": "Арт-маркет ЗВЕРЕЙ!",
+      "startDate": "2026-05-17",
+      "endDate": "2026-05-17",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва",
+      "description": "Арт-маркет в стиле ностальгии по детству.",
+      "url": "https://vk.com/zvereymarket"
     }
   ],
   "categories": [
