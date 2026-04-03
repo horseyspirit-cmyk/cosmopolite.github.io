@@ -285,6 +285,39 @@
       "location": "Москва, 2-й Кабельный пр., 1, корп. 3",
       "description": "фуршетик от замечательных поварят из\n🧑‍🍳 Tails Squad! 🧑‍🍳 У ребят всегда получаются обалденные закуски, снэки и другое омном на любой вкус, всё удобное и переносное  🍣  Фирменные пончики тоже обязательны\n\nЦена 2900р, возраст 18+",
       "url": "https://t.me/c/1853255549/324964"
+    },
+    {
+      "id": "tent-dracon-2026",
+      "title": "DraCon V",
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-06",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Москва",
+      "description": "Драконий фестиваль с маркетом, в этот раз будет идти 2 дня. \nПервый день будет наполнен тематическими активностями и пройдёт в Лужниках. Второй день станет наполнен преимущественно музыкой и пройдёт в клубе Свобода. Возраст 12+",
+      "url": "https://vk.com/dracon"
+    },
+    {
+      "id": "spbmarket",
+      "title": "ФурМаркет (ПитерФМ)",
+      "startDate": "2026-05-23",
+      "endDate": "2026-05-23",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Санкт-Петербург",
+      "description": "ФурМаркет — это арт-маркет на фурри-тематику, теперь и в Питере.\nЦена 500-3650р",
+      "url": "https://t.me/spb_furr_market"
+    },
+    {
+      "id": "furrburrg",
+      "title": "Фуррбург фест",
+      "startDate": "2026-05-03",
+      "endDate": "2026-05-03",
+      "color": "#f59e0b",
+      "category": "meetup",
+      "location": "Санкт-Петербург",
+      "description": "Пятый Фуррбург, в стилистике дикого запада.",
+      "url": "https://t.me/furrburgfest"
     }
   ],
   "categories": [
@@ -349,16 +382,6 @@
       "location": "Москва",
       "description": "Фурри-маркет. Дата уточняется.",
       "url": "https://vk.com/anyfurryfest"
-    },
-    {
-      "id": "tent-dracon-2026",
-      "title": "DraCon V",
-      "estimatedDate": "5 декабря 2026 (?)",
-      "color": "#f59e0b",
-      "category": "meetup",
-      "location": "Москва",
-      "description": "Вероятнее всего 5 декабря.",
-      "url": "https://vk.com/dracon"
     },
     {
       "id": "tent-kaifur-2026",
