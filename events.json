@@ -276,17 +276,6 @@
       "url": "https://t.me/wfinfo"
     },
     {
-      "id": "camping-2026-07-19",
-      "title": "Кемпинг",
-      "startDate": "2026-07-18",
-      "endDate": "2026-07-19",
-      "color": "#10b981",
-      "category": "camping",
-      "location": "Подмосковье",
-      "description": "Июльский кемпинг.",
-      "url": ""
-    },
-    {
       "id": "turfur-2026-08",
       "title": "Турфур",
       "startDate": "2026-08-06",
