@@ -276,6 +276,17 @@
       "url": "https://t.me/wfinfo"
     },
     {
+      "id": "ev-1783769127540",
+      "title": "Клоун Фиеста",
+      "color": "#10b981",
+      "category": "camping",
+      "location": "Кладбище",
+      "description": "Клоун-фиеста",
+      "url": "",
+      "startDate": "2026-07-18",
+      "endDate": "2026-07-19"
+    },
+    {
       "id": "turfur-2026-08",
       "title": "Турфур",
       "startDate": "2026-08-06",
