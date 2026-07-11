@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактор календаря фурри-событий 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; padding: 20px; color: #1e293b; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    .header { 
+      background: linear-gradient(135deg, #d946ef, #a21caf); 
+      color: white; 
+      padding: 25px; 
+      border-radius: 16px; 
+      margin-bottom: 25px; 
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(217, 70, 239, 0.2);
+    }
+    
+    .status { 
+      padding: 15px; 
+      margin-bottom: 20px; 
+      border-radius: 10px; 
+      display: none;
+      font-weight: 500;
+    }
+    .success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .error { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .info { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+    
+    .card { 
+      background: white; 
+      padding: 25px; 
+      border-radius: 16px; 
+      margin-bottom: 25px; 
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+    
+    h2 { margin-bottom: 20px; color: #0f172a; font-weight: 700; font-size: 1.5rem; }
+    
+    .form-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 20px; 
+      margin-bottom: 20px;
+    }
+    
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.95rem; }
+    .required::after { content: " *"; color: #ef4444; }
+    input, select, textarea { 
+      width: 100%; 
+      padding: 12px 15px; 
+      border: 2px solid #e2e8f0; 
+      border-radius: 10px; 
+      font-size: 15px;
+      transition: all 0.3s;
+      background: #f8fafc;
+    }
+    input:focus, select:focus, textarea:focus { 
+      outline: none; 
+      border-color: #d946ef; 
+      background: white;
+      box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.1);
+    }
+    textarea { min-height: 100px; resize: vertical; font-family: inherit; }
+    .color-preview { width: 40px; height: 40px; border-radius: 8px; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    
+    .btn { 
+      padding: 14px 28px; 
+      border: none; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary { 
+      background: linear-gradient(135deg, #d946ef, #a21caf); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(217, 70, 239, 0.3);
+    }
+    .btn-primary:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(217, 70, 239, 0.4);
+    }
+    .btn-secondary { 
+      background: linear-gradient(135deg, #64748b, #475569); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+    }
+    .btn-secondary:hover { 
+      background: linear-gradient(135deg, #475569, #334155);
+      transform: translateY(-2px);
+    }
+    .btn-danger { 
+      background: linear-gradient(135deg, #ef4444, #dc2626); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+    .btn-danger:hover { 
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      transform: translateY(-2px);
+    }
+    .btn-success { 
+      background: linear-gradient(135deg, #10b981, #059669); 
+      color: white; 
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-success:hover { 
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-2px);
+    }
+    
+    .events-list { max-height: 600px; overflow-y: auto; padding-right: 10px; }
+    .event-item { 
+      background: white; 
+      padding: 20px; 
+      margin-bottom: 15px; 
+      border-radius: 14px; 
+      border-left: 5px solid #d946ef;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s;
+    }
+    .event-item:hover { 
+      transform: translateX(5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      border-left-color: #a21caf;
+    }
+    .event-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .event-title { font-weight: 700; color: #0f172a; font-size: 1.1rem; margin-bottom: 5px; }
+    .event-dates { 
+      color: #64748b; 
+      font-size: 0.9rem; 
+      display: flex; 
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .event-actions { display: flex; gap: 10px; }
+    
+    .password-screen { 
+      position: fixed; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0); 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      z-index: 1000;
+      padding: 20px;
+    }
+    .password-form { 
+      max-width: 450px; 
+      width: 100%; 
+      background: white; 
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    
+    .instructions {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #f59e0b;
+      border-radius: 14px;
+      padding: 25px;
+      margin-top: 30px;
+    }
+    .instructions h3 { color: #92400e; margin-bottom: 15px; font-weight: 700; }
+    .instructions ol { margin-left: 20px; margin-bottom: 15px; }
+    .instructions li { margin-bottom: 8px; line-height: 1.5; }
+    .instructions code {
+      background: rgba(0, 0, 0, 0.08);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      gap: 6px;
+    }
+    
+    .stat-box {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      flex: 1;
+      min-width: 180px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #d946ef;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: #94a3b8;
+    }
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+    }
+    
+    .color-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .color-hint span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    @media (max-width: 768px) {
+      body { padding: 15px; }
+      .header { padding: 20px; }
+      .card { padding: 20px; }
+      .btn { padding: 12px 20px; }
+      .event-header { flex-direction: column; }
+      .event-actions { width: 100%; }
+      .event-actions button { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Экран ввода пароля -->
+  <div id="passwordScreen" class="password-screen">
+    <div class="header" style="max-width: 450px; width: 100%; margin-bottom: 30px;">
+      <h1 style="font-size: 2rem; margin-bottom: 10px;">🔐 Редактор календаря</h1>
+      <p style="margin-top: 10px; opacity: 0.9; font-size: 1.1rem;">Только для администратора</p>
+    </div>
+    <div class="password-form">
+      <div style="margin-bottom: 25px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2 style="margin-bottom: 25px; color: #0f172a;">Введите пароль доступа</h2>
+      <div class="form-group" style="position: relative;">
+        <input type="password" id="password" placeholder="Введите пароль" style="padding-right: 50px;">
+        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">👁️</button>
+      </div>
+      <button onclick="checkPassword()" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 15px;">
+        <span>🔓 Войти в редактор</span>
+      </button>
+      <div id="passwordError" style="color: #ef4444; margin-top: 15px; display: none; font-weight: 500;">
+        ❌ Неверный пароль. Попробуйте снова.
+      </div>
+      <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 0.9rem;">
+        <p>🔒 Доступ только для организатора календаря</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Основной контент (скрыт до ввода пароля) -->
+  <div class="container" id="mainContent" style="display: none;">
+    <!-- Статус сообщения -->
+    <div id="statusMessage" class="status"></div>
+
+    <!-- Заголовок -->
+    <div class="header">
+      <h1 style="font-size: 2.2rem; margin-bottom: 10px;">📅 Редактор фурри-календаря 2026</h1>
+      <p style="margin-top: 10px; opacity: 0.9; font-size: 1.1rem;">Автоматические цвета для каждой категории</p>
+      <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+        <button onclick="saveToFile()" class="btn btn-success">
+          <span>💾 Скачать events.json</span>
+        </button>
+        <button onclick="logout()" class="btn btn-secondary">
+          <span>🚪 Выйти</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="stat-box">
+      <div class="stat-item">
+        <div class="stat-number" id="totalEvents">0</div>
+        <div class="stat-label">Всего событий</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="upcomingEvents">0</div>
+        <div class="stat-label">Ближайшие события</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="tentativeCount">0</div>
+        <div class="stat-label">Под вопросом</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="lastUpdate">–</div>
+        <div class="stat-label">Последнее обновление</div>
+      </div>
+    </div>
+
+    <!-- Легенда цветов -->
+    <div class="card" style="padding: 20px;">
+      <h3 style="margin-bottom: 15px;">🎨 Цвета категорий</h3>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div class="color-hint">
+          <span style="background-color: #3b82f6;"></span>
+          <span>Конвент</span>
+        </div>
+        <div class="color-hint">
+          <span style="background-color: #10b981;"></span>
+          <span>Кемпинг</span>
+        </div>
+        <div class="color-hint">
+          <span style="background-color: #f59e0b;"></span>
+          <span>Маркет</span>
+        </div>
+        <div class="color-hint">
+          <span style="background-color: #6b7280;"></span>
+          <span>Под вопросом</span>
+        </div>
+        <div class="color-hint">
+          <span style="background-color: #d946ef; border: 1px dashed #666;"></span>
+          <span>Свой цвет (вручную)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Форма добавления/редактирования события -->
+    <div class="card">
+      <h2 id="formTitle">➕ Добавить новое событие</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="eventId" class="required">ID события (уникальный)</label>
+          <input type="text" id="eventId" placeholder="wintertails-2026-01" required>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">Только латинские буквы, цифры и дефисы</div>
+        </div>
+        <div class="form-group">
+          <label for="eventTitle" class="required">Название события</label>
+          <input type="text" id="eventTitle" placeholder="Винтертейлз" required>
+        </div>
+        <div class="form-group">
+          <label for="startDate" class="required">Дата начала</label>
+          <input type="date" id="startDate" value="2026-01-01" required>
+        </div>
+        <div class="form-group">
+          <label for="endDate" class="required">Дата окончания</label>
+          <input type="date" id="endDate" value="2026-01-01" required>
+        </div>
+        <div class="form-group">
+          <label for="category" class="required">Категория</label>
+          <select id="category" required onchange="updateColorByCategory()">
+            <option value="convention">🎪 Конвент (синий)</option>
+            <option value="camping">🏕️ Кемпинг (зелёный)</option>
+            <option value="meetup">🛍️ Маркет (оранжевый)</option>
+            <option value="tentative">❓ Под вопросом (серый)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="color">
+            Цвет события 
+            <span id="colorStatus" style="font-size: 0.85rem; color: #64748b; margin-left: 8px;">(автоматический)</span>
+          </label>
+          <div style="display: flex; gap: 15px; align-items: center; margin-top: 8px;">
+            <input type="color" id="color" value="#3b82f6" style="width: 60px; height: 50px; padding: 0;" oninput="manualColorChange()">
+            <div class="color-preview" id="colorPreview"></div>
+            <button type="button" onclick="resetToAutoColor()" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.85rem;">
+              🔄 Авто
+            </button>
+          </div>
+          <div class="color-hint">
+            <span id="currentCategoryColor" style="background-color: #3b82f6;"></span>
+            <span id="currentCategoryText">Цвет для категории "Конвент"</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="location">📍 Место проведения</label>
+          <input type="text" id="location" placeholder="Москва, Арт-холл Лужники">
+        </div>
+        <div class="form-group">
+          <label for="url">🔗 Ссылка (Telegram, VK, сайт)</label>
+          <input type="url" id="url" placeholder="https://t.me/...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">📝 Описание события</label>
+        <textarea id="description" placeholder="Подробное описание события, цена билетов, возрастные ограничения, особенности..."></textarea>
+      </div>
+      
+      <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+        <button onclick="saveEvent()" class="btn btn-primary">
+          <span>💾 Сохранить событие</span>
+        </button>
+        <button onclick="clearForm()" class="btn btn-secondary">
+          <span>🗑️ Очистить форму</span>
+        </button>
+        <button onclick="addSampleEvent()" class="btn btn-secondary">
+          <span>🎲 Пример события</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Список существующих событий -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>📋 Все события календаря</h2>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="searchEvents" placeholder="Поиск событий..." style="width: 250px; padding: 10px 15px;">
+          <select id="filterCategory" style="width: 180px;">
+            <option value="">Все категории</option>
+            <option value="convention">Конвенты</option>
+            <option value="camping">Кемпинги</option>
+            <option value="meetup">Маркеты</option>
+          </select>
+        </div>
+      </div>
+      <div id="eventsList" class="events-list">
+        <!-- События будут загружены сюда -->
+        <div class="empty-state">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <p style="font-size: 1.1rem; margin-bottom: 10px;">Загружаем события...</p>
+          <p style="color: #94a3b8;">Если события не загрузились, проверьте файл events.json</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- События под вопросом -->
+    <div class="card">
+      <h2>❓ События под вопросом</h2>
+      <p style="color: #64748b; margin-bottom: 20px; font-size: 0.95rem;">События с неподтверждёнными датами. Можно переместить в основные, указав точные даты.</p>
+      <div id="tentativeEventsList" class="events-list">
+        <!-- События будут загружены сюда -->
+      </div>
+    </div>
+
+    <!-- Инструкции -->
+    <div class="instructions">
+      <h3>📚 Как пользоваться редактором</h3>
+      <ol>
+        <li><strong>Автоматические цвета</strong>: При выборе категории цвет устанавливается автоматически</li>
+        <li><strong>Ручная настройка</strong>: Можно изменить цвет вручную, если нужно</li>
+        <li><strong>Сброс цвета</strong>: Кнопка "Авто" вернёт цвет по умолчанию для категории</li>
+        <li><strong>Скачать и обновить</strong>: Нажмите "Скачать events.json" и загрузите в GitHub</li>
+      </ol>
+    </div>
+    
+    <!-- Подвал -->
+    <div style="text-align: center; padding: 30px; color: #64748b; font-size: 0.9rem; margin-top: 20px;">
+      <p>Редактор календаря фурри-событий 2026 | Автоматические цвета категорий</p>
+    </div>
+  </div>
+
+  <script>
+    // ============ НАСТРОЙКИ ============
+    // УСТАНОВИТЕ СВОЙ ПАРОЛЬ ЗДЕСЬ:
+    const ADMIN_PASSWORD = "furry2026"; // ⚠️ ЗАМЕНИТЕ НА СВОЙ ПАРОЛЬ!
+    
+    // ============ КАТЕГОРИИ И ЦВЕТА ============
+    const CATEGORY_COLORS = {
+      'convention': '#3b82f6',  // Синий
+      'camping': '#10b981',     // Зелёный
+      'meetup': '#f59e0b',      // Оранжевый
+      'tentative': '#6b7280'    // Серый
+    };
+    
+    const CATEGORY_NAMES = {
+      'convention': 'Конвент',
+      'camping': 'Кемпинг',
+      'meetup': 'Маркет',
+      'tentative': 'Под вопросом'
+    };
+    
+    // ============ ПЕРЕМЕННЫЕ ============
+    let events = [];
+    let tentativeEvents = [];
+    let currentEditId = null;
+    let isEditingTentative = false;
+    let isManualColor = false; // Флаг ручного изменения цвета
+    
+    // ============ ПАРОЛЬ И АВТОРИЗАЦИЯ ============
+    function checkPassword() {
+      const password = document.getElementById('password').value;
+      if (password === ADMIN_PASSWORD) {
+        localStorage.setItem('calendar_editor_auth', 'true');
+        localStorage.setItem('calendar_editor_last_login', new Date().toISOString());
+        document.getElementById('passwordScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        loadEvents();
+        updateStats();
+      } else {
+        const errorEl = document.getElementById('passwordError');
+        errorEl.style.display = 'block';
+        errorEl.style.animation = 'none';
+        setTimeout(() => {
+          errorEl.style.animation = 'shake 0.5s';
+        }, 10);
+      }
+    }
+    
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+    }
+    
+    function logout() {
+      if (confirm('Вы уверены, что хотите выйти?')) {
+        localStorage.removeItem('calendar_editor_auth');
+        location.reload();
+      }
+    }
+    
+    // Проверка авторизации при загрузке
+    window.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('calendar_editor_auth') === 'true') {
+        const lastLogin = localStorage.getItem('calendar_editor_last_login');
+        const loginTime = new Date(lastLogin);
+        const now = new Date();
+        const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+        
+        // Автоматический выход через 8 часов
+        if (hoursSinceLogin < 8) {
+          document.getElementById('passwordScreen').style.display = 'none';
+          document.getElementById('mainContent').style.display = 'block';
+          initEditor();
+        } else {
+          localStorage.removeItem('calendar_editor_auth');
+        }
+      }
+    });
+    
+    // ============ УТИЛИТЫ ============
+    function showMessage(text, type = 'info') {
+      const status = document.getElementById('statusMessage');
+      status.textContent = text;
+      status.className = `status ${type}`;
+      status.style.display = 'block';
+      setTimeout(() => { 
+        status.style.display = 'none';
+      }, 4000);
+    }
+    
+    function updateStats() {
+      const now = new Date();
+      const upcoming = events.filter(e => new Date(e.startDate) >= now).length;
+      
+      document.getElementById('totalEvents').textContent = events.length;
+      document.getElementById('upcomingEvents').textContent = upcoming;
+      document.getElementById('tentativeCount').textContent = tentativeEvents.length;
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+    
+    // ============ РАБОТА С ЦВЕТАМИ ============
+    function updateColorByCategory() {
+      if (isManualColor) {
+        // Если цвет изменен вручную, не меняем автоматически
+        updateColorHint();
+        return;
+      }
+      
+      const category = document.getElementById('category').value;
+      const color = CATEGORY_COLORS[category] || '#3b82f6';
+      const categoryName = CATEGORY_NAMES[category] || category;
+      
+      // Обновляем цвет
+      document.getElementById('color').value = color;
+      document.getElementById('colorPreview').style.backgroundColor = color;
+      
+      // Обновляем подсказку
+      updateColorHint();
+      
+      // Сбрасываем флаг ручного цвета для нового события
+      if (!currentEditId) {
+        isManualColor = false;
+        document.getElementById('colorStatus').textContent = '(автоматический)';
+        document.getElementById('colorStatus').style.color = '#64748b';
+      }
+    }
+    
+    function manualColorChange() {
+      isManualColor = true;
+      const color = document.getElementById('color').value;
+      document.getElementById('colorPreview').style.backgroundColor = color;
+      document.getElementById('colorStatus').textContent = '(ручной)';
+      document.getElementById('colorStatus').style.color = '#d946ef';
+      updateColorHint();
+    }
+    
+    function resetToAutoColor() {
+      isManualColor = false;
+      updateColorByCategory();
+      document.getElementById('colorStatus').textContent = '(автоматический)';
+      document.getElementById('colorStatus').style.color = '#64748b';
+      showMessage('Цвет сброшен на автоматический для выбранной категории', 'info');
+    }
+    
+    function updateColorHint() {
+      const category = document.getElementById('category').value;
+      const currentColor = document.getElementById('color').value;
+      const defaultColor = CATEGORY_COLORS[category] || '#3b82f6';
+      const categoryName = CATEGORY_NAMES[category] || category;
+      
+      document.getElementById('currentCategoryColor').style.backgroundColor = defaultColor;
+      
+      if (currentColor === defaultColor || !isManualColor) {
+        document.getElementById('currentCategoryText').textContent = 
+          `Автоматический цвет для категории "${categoryName}"`;
+      } else {
+        document.getElementById('currentCategoryText').textContent = 
+          `Ручной цвет (автоматический для "${categoryName}" - ${defaultColor})`;
+      }
+    }
+    
+    // ============ РАБОТА С ДАННЫМИ ============
+    async function loadEvents() {
+      try {
+        const response = await fetch('events.json');
+        if (!response.ok) throw new Error('Файл events.json не найден');
+        
+        const data = await response.json();
+        events = data.events || [];
+        tentativeEvents = data.tentativeEvents || [];
+        
+        renderEvents();
+        renderTentativeEvents();
+        updateStats();
+        
+        showMessage(`Загружено ${events.length} событий и ${tentativeEvents.length} событий под вопросом`, 'success');
+        
+      } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        showMessage('Не удалось загрузить events.json. Проверьте наличие файла.', 'error');
+        events = [];
+        tentativeEvents = [];
+        renderEvents();
+        renderTentativeEvents();
+      }
+    }
+    
+    function renderEvents() {
+      const container = document.getElementById('eventsList');
+      if (!container) return;
+      
+      // Сортировка по дате
+      const sortedEvents = [...events].sort((a, b) => 
+        new Date(a.startDate) - new Date(b.startDate)
+      );
+      
+      // Фильтрация
+      const searchQuery = document.getElementById('searchEvents')?.value.toLowerCase() || '';
+      const filterCategory = document.getElementById('filterCategory')?.value || '';
+      
+      const filteredEvents = sortedEvents.filter(event => {
+        const matchesSearch = event.title.toLowerCase().includes(searchQuery) || 
+                              (event.description || '').toLowerCase().includes(searchQuery) ||
+                              (event.location || '').toLowerCase().includes(searchQuery);
+        const matchesCategory = !filterCategory || event.category === filterCategory;
+        return matchesSearch && matchesCategory;
+      });
+      
+      if (filteredEvents.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">События не найдены</p>
+            <p style="color: #94a3b8;">Попробуйте изменить поисковый запрос или фильтр</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = filteredEvents.map(event => {
+        const startDate = new Date(event.startDate);
+        const endDate = new Date(event.endDate);
+        const isSingleDay = event.startDate === event.endDate;
+        const now = new Date();
+        const isPast = endDate < now;
+        const isCurrent = startDate <= now && endDate >= now;
+        
+        const dateStr = isSingleDay 
+          ? startDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })
+          : `${startDate.getDate()} ${getMonthName(startDate.getMonth())} — ${endDate.getDate()} ${getMonthName(endDate.getMonth())}`;
+        
+        const categoryInfo = getCategoryInfo(event.category);
+        
+        return `
+        <div class="event-item" data-id="${event.id}" style="border-left-color: ${event.color}; opacity: ${isPast ? '0.8' : '1'}">
+          <div class="event-header">
+            <div style="flex: 1;">
+              <div class="event-title">${event.title} ${isCurrent ? '🔴' : ''}</div>
+              <div class="event-dates">
+                <span style="background: ${event.color}20; color: ${event.color}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                  ${categoryInfo.icon} ${categoryInfo.name}
+                </span>
+                <span style="color: ${isPast ? '#94a3b8' : '#0f172a'};">
+                  📅 ${dateStr} ${event.startDate.substring(0, 4)}
+                </span>
+                ${event.location ? `<span>📍 ${event.location}</span>` : ''}
+              </div>
+            </div>
+            <div class="event-actions">
+              <button onclick="editEvent('${event.id}')" class="btn btn-secondary" style="padding: 10px 15px;">
+                <span>✏️ Редактировать</span>
+              </button>
+              <button onclick="deleteEvent('${event.id}')" class="btn btn-danger" style="padding: 10px 15px;">
+                <span>🗑️ Удалить</span>
+              </button>
+            </div>
+          </div>
+          ${event.description ? `<p style="color: #475569; line-height: 1.5; margin-bottom: 10px;">${event.description}</p>` : ''}
+          ${event.url ? `<a href="${event.url}" target="_blank" style="color: ${event.color}; text-decoration: none; font-weight: 500;">🔗 ${event.url.replace('https://', '').replace('http://', '')}</a>` : ''}
+        </div>
+      `;
+      }).join('');
+      
+      // Добавляем обработчики поиска и фильтрации
+      const searchInput = document.getElementById('searchEvents');
+      const filterSelect = document.getElementById('filterCategory');
+      
+      if (searchInput) {
+        searchInput.addEventListener('input', renderEvents);
+      }
+      if (filterSelect) {
+        filterSelect.addEventListener('change', renderEvents);
+      }
+    }
+    
+    function renderTentativeEvents() {
+      const container = document.getElementById('tentativeEventsList');
+      if (!container) return;
+      
+      if (tentativeEvents.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">Нет событий под вопросом</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = tentativeEvents.map(event => {
+        const categoryInfo = getCategoryInfo(event.category);
+        
+        return `
+        <div class="event-item" data-id="${event.id}" style="border-left-color: #f59e0b;">
+          <div class="event-header">
+            <div style="flex: 1;">
+              <div class="event-title">${event.title}</div>
+              <div class="event-dates">
+                <span style="background: #f59e0b20; color: #f59e0b; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                  ❓ ${categoryInfo.name}
+                </span>
+                <span>📅 ${event.estimatedDate}</span>
+                ${event.location ? `<span>📍 ${event.location}</span>` : ''}
+              </div>
+            </div>
+            <div class="event-actions">
+              <button onclick="editTentativeEvent('${event.id}')" class="btn btn-primary" style="padding: 10px 15px;">
+                <span>✅ Указать даты</span>
+              </button>
+              <button onclick="deleteTentativeEvent('${event.id}')" class="btn btn-danger" style="padding: 10px 15px;">
+                <span>🗑️ Удалить</span>
+              </button>
+            </div>
+          </div>
+          ${event.description ? `<p style="color: #475569; line-height: 1.5; margin-bottom: 10px;">${event.description}</p>` : ''}
+          ${event.url ? `<a href="${event.url}" target="_blank" style="color: #f59e0b; text-decoration: none; font-weight: 500;">🔗 ${event.url.replace('https://', '').replace('http://', '')}</a>` : ''}
+        </div>
+      `;
+      }).join('');
+    }
+    
+    function getCategoryInfo(categoryId) {
+      const categories = {
+        'convention': { name: 'Конвент', icon: '🎪', color: '#3b82f6' },
+        'camping': { name: 'Кемпинг', icon: '🏕️', color: '#10b981' },
+        'meetup': { name: 'Маркет', icon: '🛍️', color: '#f59e0b' },
+        'tentative': { name: 'Под вопросом', icon: '❓', color: '#6b7280' }
+      };
+      return categories[categoryId] || { name: categoryId, icon: '📅', color: '#6b7280' };
+    }
+    
+    function getMonthName(monthIndex) {
+      const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+      return months[monthIndex];
+    }
+    
+    // ============ РЕДАКТИРОВАНИЕ СОБЫТИЙ ============
+    function editEvent(id) {
+      const event = events.find(e => e.id === id);
+      if (!event) return;
+      
+      currentEditId = id;
+      isEditingTentative = false;
+      
+      // Проверяем, совпадает ли цвет с автоматическим для категории
+      const defaultColor = CATEGORY_COLORS[event.category];
+      isManualColor = event.color !== defaultColor;
+      
+      document.getElementById('formTitle').textContent = '✏️ Редактировать событие';
+      
+      // Заполняем форму
+      document.getElementById('eventId').value = event.id;
+      document.getElementById('eventTitle').value = event.title;
+      document.getElementById('startDate').value = event.startDate;
+      document.getElementById('endDate').value = event.endDate;
+      document.getElementById('category').value = event.category;
+      document.getElementById('color').value = event.color;
+      document.getElementById('colorPreview').style.backgroundColor = event.color;
+      document.getElementById('location').value = event.location || '';
+      document.getElementById('url').value = event.url || '';
+      document.getElementById('description').value = event.description || '';
+      
+      // Обновляем статус цвета
+      if (isManualColor) {
+        document.getElementById('colorStatus').textContent = '(ручной)';
+        document.getElementById('colorStatus').style.color = '#d946ef';
+      } else {
+        document.getElementById('colorStatus').textContent = '(автоматический)';
+        document.getElementById('colorStatus').style.color = '#64748b';
+      }
+      
+      updateColorHint();
+      
+      // Прокрутка к форме
+      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showMessage('Редактируйте событие и нажмите "Сохранить событие"', 'info');
+    }
+    
+    function editTentativeEvent(id) {
+      const event = tentativeEvents.find(e => e.id === id);
+      if (!event) return;
+      
+      currentEditId = id;
+      isEditingTentative = true;
+      isManualColor = false;
+      
+      document.getElementById('formTitle').textContent = '✅ Указать даты для события';
+      
+      // Заполняем форму
+      document.getElementById('eventId').value = event.id;
+      document.getElementById('eventTitle').value = event.title;
+      document.getElementById('startDate').value = '2026-01-01';
+      document.getElementById('endDate').value = '2026-01-01';
+      document.getElementById('category').value = event.category === 'tentative' ? 'meetup' : event.category;
+      
+      const defaultColor = CATEGORY_COLORS[event.category === 'tentative' ? 'meetup' : event.category] || '#3b82f6';
+      document.getElementById('color').value = defaultColor;
+      document.getElementById('colorPreview').style.backgroundColor = defaultColor;
+      document.getElementById('location').value = event.location || '';
+      document.getElementById('url').value = event.url || '';
+      document.getElementById('description').value = event.description || '';
+      
+      document.getElementById('colorStatus').textContent = '(автоматический)';
+      document.getElementById('colorStatus').style.color = '#64748b';
+      updateColorHint();
+      
+      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showMessage('Укажите точные даты для перемещения события в основной календарь', 'info');
+    }
+    
+    function saveEvent() {
+      // Собираем данные из формы
+      const id = document.getElementById('eventId').value.trim();
+      const title = document.getElementById('eventTitle').value.trim();
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const category = document.getElementById('category').value;
+      const color = document.getElementById('color').value;
+      const location = document.getElementById('location').value.trim();
+      const url = document.getElementById('url').value.trim();
+      const description = document.getElementById('description').value.trim();
+      
+      // Проверки
+      if (!id || !title || !startDate || !endDate || !category) {
+        showMessage('Заполните все обязательные поля', 'error');
+        return;
+      }
+      
+      if (startDate > endDate) {
+        showMessage('Дата начала не может быть позже даты окончания', 'error');
+        return;
+      }
+      
+      if (!/^[a-z0-9\-]+$/.test(id)) {
+        showMessage('ID должен содержать только латинские буквы, цифры и дефисы', 'error');
+        return;
+      }
+      
+      const eventData = {
+        id,
+        title,
+        startDate,
+        endDate,
+        color,
+        category,
+        location: location || '',
+        description: description || '',
+        url: url || ''
+      };
+      
+      if (currentEditId) {
+        // Редактируем существующее
+        if (isEditingTentative) {
+          // Перемещаем из tentative в основные
+          const index = tentativeEvents.findIndex(e => e.id === currentEditId);
+          if (index !== -1) {
+            tentativeEvents.splice(index, 1);
+          }
+          events.push(eventData);
+          showMessage('Событие перемещено в основной календарь', 'success');
+        } else {
+          // Редактируем основное событие
+          const index = events.findIndex(e => e.id === currentEditId);
+          if (index !== -1) {
+            events[index] = eventData;
+            showMessage('Событие обновлено', 'success');
+          } else {
+            events.push(eventData);
+            showMessage('Создано новое событие', 'success');
+          }
+        }
+      } else {
+        // Добавляем новое
+        events.push(eventData);
+        showMessage('Событие добавлено', 'success');
+      }
+      
+      // Очищаем форму и перерисовываем
+      clearForm();
+      renderEvents();
+      renderTentativeEvents();
+      updateStats();
+    }
+    
+    function deleteEvent(id) {
+      if (!confirm('Удалить это событие? Это действие нельзя отменить.')) return;
+      
+      events = events.filter(e => e.id !== id);
+      renderEvents();
+      updateStats();
+      showMessage('Событие удалено', 'success');
+    }
+    
+    function deleteTentativeEvent(id) {
+      if (!confirm('Удалить это событие? Это действие нельзя отменить.')) return;
+      
+      tentativeEvents = tentativeEvents.filter(e => e.id !== id);
+      renderTentativeEvents();
+      updateStats();
+      showMessage('Событие удалено', 'success');
+    }
+    
+    function clearForm() {
+      currentEditId = null;
+      isEditingTentative = false;
+      isManualColor = false;
+      document.getElementById('formTitle').textContent = '➕ Добавить новое событие';
+      document.getElementById('eventId').value = '';
+      document.getElementById('eventTitle').value = '';
+      document.getElementById('startDate').value = '2026-01-01';
+      document.getElementById('endDate').value = '2026-01-01';
+      document.getElementById('category').value = 'convention';
+      document.getElementById('color').value = '#3b82f6';
+      document.getElementById('colorPreview').style.backgroundColor = '#3b82f6';
+      document.getElementById('location').value = '';
+      document.getElementById('url').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('colorStatus').textContent = '(автоматический)';
+      document.getElementById('colorStatus').style.color = '#64748b';
+      updateColorHint();
+    }
+    
+    function addSampleEvent() {
+      const sampleId = 'sample-' + Date.now().toString().slice(-6);
+      const sampleDate = new Date(2026, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+      const formattedDate = sampleDate.toISOString().split('T')[0];
+      
+      document.getElementById('eventId').value = sampleId;
+      document.getElementById('eventTitle').value = 'Пример события';
+      document.getElementById('startDate').value = formattedDate;
+      document.getElementById('endDate').value = formattedDate;
+      document.getElementById('category').value = 'meetup';
+      document.getElementById('color').value = '#f59e0b';
+      document.getElementById('colorPreview').style.backgroundColor = '#f59e0b';
+      document.getElementById('location').value = 'Москва';
+      document.getElementById('url').value = 'https://t.me/example';
+      document.getElementById('description').value = 'Это пример события. Заполните информацию и сохраните.';
+      
+      isManualColor = false;
+      document.getElementById('colorStatus').textContent = '(автоматический)';
+      document.getElementById('colorStatus').style.color = '#64748b';
+      updateColorHint();
+      
+      showMessage('Заполнена форма примера. Измените данные по необходимости.', 'info');
+    }
+    
+    // ============ СОХРАНЕНИЕ В ФАЙЛ ============
+    function saveToFile() {
+      const categories = [
+        { "id": "convention", "name": "Конвенты", "color": "#3b82f6" },
+        { "id": "camping", "name": "Кемпинги", "color": "#10b981" },
+        { "id": "meetup", "name": "Маркеты", "color": "#f59e0b" },
+        { "id": "tentative", "name": "Под вопросом", "color": "#6b7280" }
+      ];
+      
+      const data = {
+        events: events,
+        categories: categories,
+        tentativeEvents: tentativeEvents
+      };
+      
+      const jsonString = JSON.stringify(data, null, 2);
+      
+      // Создаем файл для скачивания
+      const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'events.json';
+      
+      // Добавляем дату в имя файла
+      const now = new Date();
+      const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+      a.download = `events-${dateStr}.json`;
+      
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showMessage(`Файл events.json скачан! Загрузите его на GitHub.`, 'success');
+      
+      // Показываем подробную инструкцию
+      setTimeout(() => {
+        alert(
+          '✅ Файл успешно скачан!\n\n' +
+          '📥 Чтобы обновить календарь на сайте:\n\n' +
+          '1. Перейдите на GitHub.com\n' +
+          '2. Откройте ваш репозиторий\n' +
+          '3. Нажмите на файл events.json\n' +
+          '4. Нажмите кнопку ✏️ Edit (карандаш)\n' +
+          '5. УДАЛИТЕ ВЕСЬ старый текст\n' +
+          '6. ВСТАВЬТЕ новый JSON из скачанного файла\n' +
+          '7. Прокрутите вниз и нажмите Commit changes\n\n' +
+          '🌐 Сайт обновится через 1-2 минуты!'
+        );
+      }, 300);
+    }
+    
+    // ============ ИНИЦИАЛИЗАЦИЯ ============
+    function initEditor() {
+      loadEvents();
+      
+      // Настройка превью цвета
+      const colorInput = document.getElementById('color');
+      const colorPreview = document.getElementById('colorPreview');
+      
+      if (colorInput && colorPreview) {
+        colorPreview.style.backgroundColor = colorInput.value;
+        colorInput.addEventListener('input', manualColorChange);
+      }
+      
+      // Обновляем подсказку цвета при изменении категории
+      document.getElementById('category').addEventListener('change', updateColorHint);
+      
+      // Автоматическое сохранение каждые 5 минут
+      setInterval(() => {
+        if (events.length > 0) {
+          localStorage.setItem('calendar_editor_backup', JSON.stringify({
+            events,
+            tentativeEvents,
+            timestamp: new Date().toISOString()
+          }));
+        }
+      }, 5 * 60 * 1000);
+    }
+    
+    // Добавляем анимацию тряски для ошибок
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Инициализация при загрузке
+    window.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('calendar_editor_auth') === 'true') {
+        initEditor();
+      }
+    });
+  </script>
+</body>
+</html>
